@@ -1,0 +1,19 @@
+# Auto-detect text files, normalize line endings to LF in the repo
+* text=auto
+
+# Explicit text file types
+*.cpp text
+*.h text
+*.cs text
+*.ini text diff
+*.md text
+*.txt text
+
+# Unreal project/plugin descriptor files are text (JSON-based)
+*.uproject text
+*.uplugin text
+
+# Unreal content files are binary — never diff, merge, or line-ending-normalize these
+*.uasset binary
+*.umap binary
+*.upk binary

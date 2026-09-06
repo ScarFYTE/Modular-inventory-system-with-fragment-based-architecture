@@ -1,0 +1,48 @@
+# ============================
+# Unreal Engine — generated/build folders (NEVER commit these)
+# ============================
+Binaries/
+Build/
+DerivedDataCache/
+Intermediate/
+Saved/
+.vs/
+*.VC.db
+*.opensdf
+*.sdf
+*.sln
+*.suo
+*.xcodeproj
+*.xcworkspace
+
+# ============================
+# Compiled / packaged output
+# ============================
+*.exe
+*.pdb
+*.obj
+*.tlog
+*.ilk
+
+# ============================
+# Unreal-specific cache/tmp
+# ============================
+*.uasset.bak
+*.umap.bak
+CrashReportClient/
+Config/DefaultEditorPerProjectUserSettings.ini
+
+# ============================
+# IDE / OS junk
+# ============================
+.idea/
+.vscode/
+*.user
+Thumbs.db
+.DS_Store
+
+# ============================
+# Plugin-specific (if/when restructured as a Plugin, not a full project)
+# ============================
+Plugins/*/Binaries/
+Plugins/*/Intermediate/
