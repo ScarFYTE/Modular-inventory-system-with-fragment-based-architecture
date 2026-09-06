@@ -42,7 +42,7 @@ enum class EInventoryStylePreset : uint8
 };
 
 UCLASS(BlueprintType)
-class LEARNINGC_API UInventoryUIStyle : public UDataAsset
+class MODULAR_INVENTORY_SYSTEM_API UInventoryUIStyle : public UDataAsset
 {
 	GENERATED_BODY()
 

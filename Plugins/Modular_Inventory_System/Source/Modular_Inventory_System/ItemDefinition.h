@@ -11,7 +11,7 @@
  * 
  */
 UCLASS(BlueprintType)
-class LEARNINGC_API UItemDefinition : public UPrimaryDataAsset
+class MODULAR_INVENTORY_SYSTEM_API UItemDefinition : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 public:

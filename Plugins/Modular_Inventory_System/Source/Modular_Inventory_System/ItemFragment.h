@@ -6,7 +6,7 @@
 
 // This makes the fragment abstract, editable inside a data asset, and instanced.
 UCLASS(Abstract, EditInlineNew, DefaultToInstanced,Blueprintable,BlueprintType)
-class LEARNINGC_API UItemFragment : public UObject
+class MODULAR_INVENTORY_SYSTEM_API UItemFragment : public UObject
 {
     GENERATED_BODY()
 };

@@ -1,9 +1,9 @@
 ## WORKSPACE EXECUTIVE SUMMARY (YAML)
-# Generated: 2026-09-06T19:38:27.2974907+05:00
+# Generated: 2026-09-07T00:57:37.8417599+05:00
 # Root: C:\Users\Kim China\Unreal\LearningC
 Architecture:
   Type: Backend (C#/.NET)
-  Scale: 110 relevant source files
+  Scale: 118 relevant source files
   Components: 0
   Controllers: 0
   Models: 0
@@ -11,6 +11,12 @@ Architecture:
 ---
 - File: LearningC.sln
   Preview: " Microsoft Visual Studio Solution File, Format Version 12.00 # Visual Studio Version 18 VisualStudioVersion = 18.0.11005.162 MinimumVisualStudioVersio..."
+- File: LICENSE.md
+  Preview: "All Rights Reserved Copyright (c) 2026 ScarFYTE (Syed Muhammad Shoaib Shah). All rights reserved. This repository and all of its contents — including ..."
+- File: README.md
+  Preview: "# Modular Inventory & Item System (Unreal Engine) A data-driven, ECS-inspired inventory and item management system for Unreal Engine, built in C++ wit..."
+- File: Docs\README.md
+  Preview: "# Modular Inventory & Item System (Unreal Engine) A data-driven, ECS-inspired inventory and item management system for Unreal Engine, built in C++ wit..."
 - File: Intermediate\TargetInfo.json
   Preview: "{ 	'Targets': [ 		{ 			'Name': 'LearningC', 			'Path': '..\\Source\\LearningC.Target.cs', 			'Type': 'Game' 		}, 		{ 			'Name': 'LearningCEditor', 			..."
 - File: Source\LearningC.Target.cs
@@ -21,36 +27,14 @@ Architecture:
   Preview: "// Copyright Epic Games, Inc. All Rights Reserved. using UnrealBuildTool; using System.Collections.Generic; public class LearningCEditorTarget : Targe..."
 - File: Saved\Logs\UnrealVersionSelector-2026.09.06-05.07.41.json
   Preview: "{'time':'2026-09-06T00:07:42','level':'Debug','message':'Setting temp directory to \u0027C:\\Users\\Kim China\\AppData\\Local\\Temp\\UnrealBuildTool\\..."
+- File: Saved\Logs\UnrealVersionSelector-2026.09.06-22.29.04.json
+  Preview: "{'time':'2026-09-06T17:29:05','level':'Debug','message':'Setting temp directory to \u0027C:\\Users\\Kim China\\AppData\\Local\\Temp\\UnrealBuildTool\\..."
+- File: Saved\Logs\UnrealVersionSelector-2026.09.06-22.53.39.json
+  Preview: "{'time':'2026-09-06T17:53:40','level':'Debug','message':'Setting temp directory to \u0027C:\\Users\\Kim China\\AppData\\Local\\Temp\\UnrealBuildTool\\..."
 - File: Saved\SourceControl\UncontrolledChangelists.json
   Preview: "{ 	'version': 1, 	'changelists': [ 		{ 			'guid': '00000000000000000000000000000000', 			'description': 'Default Uncontrolled Changelist', 			'files':..."
 - File: Saved\UnrealBuildTool\BuildConfiguration.xml
   Preview: "<?xml version='1.0' encoding='utf-8' ?> <Configuration xmlns='https://www.unrealengine.com/BuildConfiguration'> </Configuration> "
-- File: Source\LearningC\InventoryComponent.cpp
-  Preview: "#include 'InventoryComponent.h' UInventoryComponent::UInventoryComponent() {   PrimaryComponentTick.bCanEverTick = false; } void UInventoryComponent::..."
-- File: Source\LearningC\InventoryComponent.h
-  Preview: "// Fill out your copyright notice in the Description page of Project Settings. #pragma once #include 'CoreMinimal.h' #include 'Components/ActorCompone..."
-- File: Source\LearningC\InventoryDragDropOperation.h
-  Preview: "#pragma once #include 'CoreMinimal.h' #include 'Blueprint/DragDropOperation.h' #include 'InventoryDragDropOperation.generated.h' UCLASS(Blueprintable,..."
-- File: Source\LearningC\InventoryRulesSubsystem.cpp
-  Preview: "#include 'InventoryRulesSubsystem.h' #include 'InventoryComponent.h' #include 'Engine/World.h' #include 'GameFramework/Actor.h' void UInventoryRulesSu..."
-- File: Source\LearningC\InventoryRulesSubsystem.h
-  Preview: "#pragma once #include 'ItemFragment.h' #include 'CoreMinimal.h' #include 'Subsystems/GameInstanceSubsystem.h' #include 'InventoryRulesSubsystem.genera..."
-- File: Source\LearningC\InventoryUIConfig.cpp
-  Preview: "#include 'InventoryUIConfig.h' UInventoryUIStyle* UInventoryUIConfig::GetResolvedStyle() const { 	if (StyleMode == EInventoryStyleMode::Custom) 	{ 		r..."
-- File: Source\LearningC\InventoryUIConfig.h
-  Preview: "#pragma once #include 'CoreMinimal.h' #include 'Engine/DataAsset.h' #include 'InventoryUIStyle.h'  // for UInventoryUIStyle and EInventoryStylePreset ..."
-- File: Source\LearningC\InventoryUIStyle.cpp
-  Preview: "#include 'InventoryUIStyle.h'"
-- File: Source\LearningC\InventoryUIStyle.h
-  Preview: "#pragma once #include 'CoreMinimal.h' #include 'Engine/DataAsset.h' #include 'Styling/SlateBrush.h' #include 'Styling/SlateTypes.h' #include 'Inventor..."
-- File: Source\LearningC\ItemDefinition.cpp
-  Preview: "// Fill out your copyright notice in the Description page of Project Settings.  #include 'ItemDefinition.h' "
-- File: Source\LearningC\ItemDefinition.h
-  Preview: "// Fill out your copyright notice in the Description page of Project Settings. #pragma once #include 'CoreMinimal.h' #include 'Engine/DataAsset.h' #in..."
-- File: Source\LearningC\ItemFragment.cpp
-  Preview: "// Fill out your copyright notice in the Description page of Project Settings.  #include 'ItemFragment.h' "
-- File: Source\LearningC\ItemFragment.h
-  Preview: "#pragma once #include 'CoreMinimal.h' #include 'UObject/NoExportTypes.h' #include 'ItemFragment.generated.h' // This makes the fragment abstract, edit..."
 - File: Source\LearningC\LearningC.Build.cs
   Symbols: [base, LearningC]
   Preview: "// Copyright Epic Games, Inc. All Rights Reserved. using UnrealBuildTool; public class LearningC : ModuleRules { 	public LearningC(ReadOnlyTargetRules..."
@@ -110,6 +94,35 @@ Architecture:
   Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'SideScrollingPlayerController.h' #include 'EnhancedInputSubsystems.h' #include 'InputMap..."
 - File: Source\LearningC\Variant_SideScrolling\SideScrollingPlayerController.h
   Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/PlayerController.h' #include 'Enhance..."
+- File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\InventoryComponent.cpp
+  Preview: "#include 'InventoryComponent.h' UInventoryComponent::UInventoryComponent() {   PrimaryComponentTick.bCanEverTick = false; } void UInventoryComponent::..."
+- File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\InventoryComponent.h
+  Preview: "// Fill out your copyright notice in the Description page of Project Settings. #pragma once #include 'CoreMinimal.h' #include 'Components/ActorCompone..."
+- File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\InventoryDragDropOperation.h
+  Preview: "#pragma once #include 'CoreMinimal.h' #include 'Blueprint/DragDropOperation.h' #include 'InventoryDragDropOperation.generated.h' UCLASS(Blueprintable,..."
+- File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\InventoryRulesSubsystem.cpp
+  Preview: "#include 'InventoryRulesSubsystem.h' #include 'InventoryComponent.h' #include 'Engine/World.h' #include 'GameFramework/Actor.h' void UInventoryRulesSu..."
+- File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\InventoryRulesSubsystem.h
+  Preview: "#pragma once #include 'ItemFragment.h' #include 'CoreMinimal.h' #include 'Subsystems/GameInstanceSubsystem.h' #include 'InventoryRulesSubsystem.genera..."
+- File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\InventoryUIConfig.cpp
+  Preview: "#include 'InventoryUIConfig.h' UInventoryUIStyle* UInventoryUIConfig::GetResolvedStyle() const { 	if (StyleMode == EInventoryStyleMode::Custom) 	{ 		r..."
+- File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\InventoryUIConfig.h
+  Preview: "#pragma once #include 'CoreMinimal.h' #include 'Engine/DataAsset.h' #include 'InventoryUIStyle.h'  // for UInventoryUIStyle and EInventoryStylePreset ..."
+- File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\InventoryUIStyle.cpp
+  Preview: "#include 'InventoryUIStyle.h'"
+- File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\InventoryUIStyle.h
+  Preview: "#pragma once #include 'CoreMinimal.h' #include 'Engine/DataAsset.h' #include 'Styling/SlateBrush.h' #include 'Styling/SlateTypes.h' #include 'Inventor..."
+- File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\ItemDefinition.cpp
+  Preview: "// Fill out your copyright notice in the Description page of Project Settings.  #include 'ItemDefinition.h' "
+- File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\ItemDefinition.h
+  Preview: "// Fill out your copyright notice in the Description page of Project Settings. #pragma once #include 'CoreMinimal.h' #include 'Engine/DataAsset.h' #in..."
+- File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\ItemFragment.cpp
+  Preview: "// Fill out your copyright notice in the Description page of Project Settings.  #include 'ItemFragment.h' "
+- File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\ItemFragment.h
+  Preview: "#pragma once #include 'CoreMinimal.h' #include 'UObject/NoExportTypes.h' #include 'ItemFragment.generated.h' // This makes the fragment abstract, edit..."
+- File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\Modular_Inventory_System.Build.cs
+  Symbols: [Modular_Inventory_System, base]
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. using UnrealBuildTool; public class Modular_Inventory_System : ModuleRules { 	public Modular_Invent..."
 - File: Source\LearningC\Variant_Combat\AI\CombatAIController.cpp
   Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'CombatAIController.h' #include 'Components/StateTreeAIComponent.h' ACombatAIController::..."
 - File: Source\LearningC\Variant_Combat\AI\CombatAIController.h
@@ -222,5 +235,9 @@ Architecture:
   Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'SideScrollingUI.h' "
 - File: Source\LearningC\Variant_SideScrolling\UI\SideScrollingUI.h
   Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'Blueprint/UserWidget.h' #include 'SideScrollingUI.g..."
+- File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\Private\Modular_Inventory_System.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #include 'Modular_Inventory_System.h' #define LOCTEXT_NAMESPACE 'FModular_Inventory_SystemModule' v..."
+- File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\Public\Modular_Inventory_System.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'Modules/ModuleManager.h' class FModular_Inventory_SystemModule : public IMod..."
 - File: Saved\ShaderDebugInfo\PCD3D_SM6\WorldGridMaterial_fa3686479b6322ac\Default\DDCKey-Editor.txt
   Preview: "MATSM_0CA685E2213B413684FD1D90AAB5A0D2_PCD3D_SM6_3526388014__BC5N_NoCCBN_NoIris_DEV_NoSL_LWC2_VOP_0_PreExp_DBuf_UnInt_DXC1_VFO_LFV_LTRRT_SKYATM_SKYHF_..."

@@ -16,7 +16,7 @@ enum class EInventoryStyleMode : uint8
 
 
 UCLASS(BlueprintType)
-class LEARNINGC_API UInventoryUIConfig : public UDataAsset
+class MODULAR_INVENTORY_SYSTEM_API UInventoryUIConfig : public UDataAsset
 {
 	GENERATED_BODY()
 

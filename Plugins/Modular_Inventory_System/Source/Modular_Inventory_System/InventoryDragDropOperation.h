@@ -5,7 +5,7 @@
 #include "InventoryDragDropOperation.generated.h"
 
 UCLASS(Blueprintable, BlueprintType)
-class LEARNINGC_API UInventoryDragDropOperation : public UDragDropOperation
+class MODULAR_INVENTORY_SYSTEM_API UInventoryDragDropOperation : public UDragDropOperation
 {
 	GENERATED_BODY()
 

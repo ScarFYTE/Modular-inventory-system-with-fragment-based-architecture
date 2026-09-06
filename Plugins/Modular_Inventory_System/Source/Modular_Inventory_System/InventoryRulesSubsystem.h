@@ -11,7 +11,7 @@ class UInventoryComponent;
 class AActor;
 
 UCLASS()
-class LEARNINGC_API UInventoryRulesSubsystem : public UGameInstanceSubsystem
+class MODULAR_INVENTORY_SYSTEM_API UInventoryRulesSubsystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 

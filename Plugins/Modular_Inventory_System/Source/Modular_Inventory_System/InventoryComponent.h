@@ -21,7 +21,7 @@ struct FInventoryItem
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInventoryUpdated);
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class LEARNINGC_API UInventoryComponent : public UActorComponent
+class MODULAR_INVENTORY_SYSTEM_API UInventoryComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
