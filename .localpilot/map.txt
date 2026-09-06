@@ -1,0 +1,226 @@
+## WORKSPACE EXECUTIVE SUMMARY (YAML)
+# Generated: 2026-09-06T19:38:27.2974907+05:00
+# Root: C:\Users\Kim China\Unreal\LearningC
+Architecture:
+  Type: Backend (C#/.NET)
+  Scale: 110 relevant source files
+  Components: 0
+  Controllers: 0
+  Models: 0
+  Services: 0
+---
+- File: LearningC.sln
+  Preview: " Microsoft Visual Studio Solution File, Format Version 12.00 # Visual Studio Version 18 VisualStudioVersion = 18.0.11005.162 MinimumVisualStudioVersio..."
+- File: Intermediate\TargetInfo.json
+  Preview: "{ 	'Targets': [ 		{ 			'Name': 'LearningC', 			'Path': '..\\Source\\LearningC.Target.cs', 			'Type': 'Game' 		}, 		{ 			'Name': 'LearningCEditor', 			..."
+- File: Source\LearningC.Target.cs
+  Symbols: [base, LearningCTarget]
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. using UnrealBuildTool; using System.Collections.Generic; public class LearningCTarget : TargetRules..."
+- File: Source\LearningCEditor.Target.cs
+  Symbols: [LearningCEditorTarget, base]
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. using UnrealBuildTool; using System.Collections.Generic; public class LearningCEditorTarget : Targe..."
+- File: Saved\Logs\UnrealVersionSelector-2026.09.06-05.07.41.json
+  Preview: "{'time':'2026-09-06T00:07:42','level':'Debug','message':'Setting temp directory to \u0027C:\\Users\\Kim China\\AppData\\Local\\Temp\\UnrealBuildTool\\..."
+- File: Saved\SourceControl\UncontrolledChangelists.json
+  Preview: "{ 	'version': 1, 	'changelists': [ 		{ 			'guid': '00000000000000000000000000000000', 			'description': 'Default Uncontrolled Changelist', 			'files':..."
+- File: Saved\UnrealBuildTool\BuildConfiguration.xml
+  Preview: "<?xml version='1.0' encoding='utf-8' ?> <Configuration xmlns='https://www.unrealengine.com/BuildConfiguration'> </Configuration> "
+- File: Source\LearningC\InventoryComponent.cpp
+  Preview: "#include 'InventoryComponent.h' UInventoryComponent::UInventoryComponent() {   PrimaryComponentTick.bCanEverTick = false; } void UInventoryComponent::..."
+- File: Source\LearningC\InventoryComponent.h
+  Preview: "// Fill out your copyright notice in the Description page of Project Settings. #pragma once #include 'CoreMinimal.h' #include 'Components/ActorCompone..."
+- File: Source\LearningC\InventoryDragDropOperation.h
+  Preview: "#pragma once #include 'CoreMinimal.h' #include 'Blueprint/DragDropOperation.h' #include 'InventoryDragDropOperation.generated.h' UCLASS(Blueprintable,..."
+- File: Source\LearningC\InventoryRulesSubsystem.cpp
+  Preview: "#include 'InventoryRulesSubsystem.h' #include 'InventoryComponent.h' #include 'Engine/World.h' #include 'GameFramework/Actor.h' void UInventoryRulesSu..."
+- File: Source\LearningC\InventoryRulesSubsystem.h
+  Preview: "#pragma once #include 'ItemFragment.h' #include 'CoreMinimal.h' #include 'Subsystems/GameInstanceSubsystem.h' #include 'InventoryRulesSubsystem.genera..."
+- File: Source\LearningC\InventoryUIConfig.cpp
+  Preview: "#include 'InventoryUIConfig.h' UInventoryUIStyle* UInventoryUIConfig::GetResolvedStyle() const { 	if (StyleMode == EInventoryStyleMode::Custom) 	{ 		r..."
+- File: Source\LearningC\InventoryUIConfig.h
+  Preview: "#pragma once #include 'CoreMinimal.h' #include 'Engine/DataAsset.h' #include 'InventoryUIStyle.h'  // for UInventoryUIStyle and EInventoryStylePreset ..."
+- File: Source\LearningC\InventoryUIStyle.cpp
+  Preview: "#include 'InventoryUIStyle.h'"
+- File: Source\LearningC\InventoryUIStyle.h
+  Preview: "#pragma once #include 'CoreMinimal.h' #include 'Engine/DataAsset.h' #include 'Styling/SlateBrush.h' #include 'Styling/SlateTypes.h' #include 'Inventor..."
+- File: Source\LearningC\ItemDefinition.cpp
+  Preview: "// Fill out your copyright notice in the Description page of Project Settings.  #include 'ItemDefinition.h' "
+- File: Source\LearningC\ItemDefinition.h
+  Preview: "// Fill out your copyright notice in the Description page of Project Settings. #pragma once #include 'CoreMinimal.h' #include 'Engine/DataAsset.h' #in..."
+- File: Source\LearningC\ItemFragment.cpp
+  Preview: "// Fill out your copyright notice in the Description page of Project Settings.  #include 'ItemFragment.h' "
+- File: Source\LearningC\ItemFragment.h
+  Preview: "#pragma once #include 'CoreMinimal.h' #include 'UObject/NoExportTypes.h' #include 'ItemFragment.generated.h' // This makes the fragment abstract, edit..."
+- File: Source\LearningC\LearningC.Build.cs
+  Symbols: [base, LearningC]
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. using UnrealBuildTool; public class LearningC : ModuleRules { 	public LearningC(ReadOnlyTargetRules..."
+- File: Source\LearningC\LearningC.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #include 'LearningC.h' #include 'Modules/ModuleManager.h' IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGa..."
+- File: Source\LearningC\LearningC.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' /** Main log category used across the project */ DECLARE_LOG_..."
+- File: Source\LearningC\LearningCCharacter.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #include 'LearningCCharacter.h' #include 'Engine/LocalPlayer.h' #include 'Camera/CameraComponent.h'..."
+- File: Source\LearningC\LearningCCharacter.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/Character.h' #include 'Logging/LogMac..."
+- File: Source\LearningC\LearningCGameMode.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #include 'LearningCGameMode.h' ALearningCGameMode::ALearningCGameMode() { 	// stub } "
+- File: Source\LearningC\LearningCGameMode.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/GameModeBase.h' #include 'LearningCGa..."
+- File: Source\LearningC\LearningCPlayerController.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'LearningCPlayerController.h' #include 'EnhancedInputSubsystems.h' #include 'Engine/Local..."
+- File: Source\LearningC\LearningCPlayerController.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/PlayerController.h' #include 'Learnin..."
+- File: Source\LearningC\Variant_Combat\CombatCharacter.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'CombatCharacter.h' #include 'Components/CapsuleComponent.h' #include 'Components/WidgetC..."
+- File: Source\LearningC\Variant_Combat\CombatCharacter.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/Character.h' #include 'CombatAttacker..."
+- File: Source\LearningC\Variant_Combat\CombatGameMode.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'Variant_Combat/CombatGameMode.h' ACombatGameMode::ACombatGameMode() { }"
+- File: Source\LearningC\Variant_Combat\CombatGameMode.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/GameModeBase.h' #include 'CombatGameM..."
+- File: Source\LearningC\Variant_Combat\CombatPlayerController.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'Variant_Combat/CombatPlayerController.h' #include 'EnhancedInputSubsystems.h' #include '..."
+- File: Source\LearningC\Variant_Combat\CombatPlayerController.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/PlayerController.h' #include 'CombatP..."
+- File: Source\LearningC\Variant_Platforming\PlatformingCharacter.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'PlatformingCharacter.h' #include 'Components/CapsuleComponent.h' #include 'Engine/World...."
+- File: Source\LearningC\Variant_Platforming\PlatformingCharacter.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/Character.h' #include 'Animation/Anim..."
+- File: Source\LearningC\Variant_Platforming\PlatformingGameMode.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'Variant_Platforming/PlatformingGameMode.h' APlatformingGameMode::APlatformingGameMode() ..."
+- File: Source\LearningC\Variant_Platforming\PlatformingGameMode.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/GameModeBase.h' #include 'Platforming..."
+- File: Source\LearningC\Variant_Platforming\PlatformingPlayerController.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'Variant_Platforming/PlatformingPlayerController.h' #include 'EnhancedInputSubsystems.h' ..."
+- File: Source\LearningC\Variant_Platforming\PlatformingPlayerController.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/PlayerController.h' #include 'Platfor..."
+- File: Source\LearningC\Variant_SideScrolling\SideScrollingCameraManager.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'SideScrollingCameraManager.h' #include 'GameFramework/Pawn.h' #include 'Engine/HitResult..."
+- File: Source\LearningC\Variant_SideScrolling\SideScrollingCameraManager.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'Camera/PlayerCameraManager.h' #include 'SideScrolli..."
+- File: Source\LearningC\Variant_SideScrolling\SideScrollingCharacter.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'SideScrollingCharacter.h' #include 'GameFramework/CharacterMovementComponent.h' #include..."
+- File: Source\LearningC\Variant_SideScrolling\SideScrollingCharacter.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/Character.h' #include 'SideScrollingC..."
+- File: Source\LearningC\Variant_SideScrolling\SideScrollingGameMode.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'SideScrollingGameMode.h' #include 'Kismet/GameplayStatics.h' #include 'Blueprint/UserWid..."
+- File: Source\LearningC\Variant_SideScrolling\SideScrollingGameMode.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/GameModeBase.h' #include 'SideScrolli..."
+- File: Source\LearningC\Variant_SideScrolling\SideScrollingPlayerController.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'SideScrollingPlayerController.h' #include 'EnhancedInputSubsystems.h' #include 'InputMap..."
+- File: Source\LearningC\Variant_SideScrolling\SideScrollingPlayerController.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/PlayerController.h' #include 'Enhance..."
+- File: Source\LearningC\Variant_Combat\AI\CombatAIController.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'CombatAIController.h' #include 'Components/StateTreeAIComponent.h' ACombatAIController::..."
+- File: Source\LearningC\Variant_Combat\AI\CombatAIController.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'AIController.h' #include 'CombatAIController.genera..."
+- File: Source\LearningC\Variant_Combat\AI\CombatEnemy.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'CombatEnemy.h' #include 'Components/CapsuleComponent.h' #include 'GameFramework/Characte..."
+- File: Source\LearningC\Variant_Combat\AI\CombatEnemy.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/Character.h' #include 'CombatAttacker..."
+- File: Source\LearningC\Variant_Combat\AI\CombatEnemySpawner.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'CombatEnemySpawner.h' #include 'Engine/World.h' #include 'Components/SceneComponent.h' #..."
+- File: Source\LearningC\Variant_Combat\AI\CombatEnemySpawner.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/Actor.h' #include 'CombatActivatable...."
+- File: Source\LearningC\Variant_Combat\AI\CombatStateTreeUtility.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'CombatStateTreeUtility.h' #include 'StateTreeExecutionContext.h' #include 'StateTreeExec..."
+- File: Source\LearningC\Variant_Combat\AI\CombatStateTreeUtility.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'StateTreeTaskBase.h' #include 'StateTreeConditionBa..."
+- File: Source\LearningC\Variant_Combat\AI\EnvQueryContext_Danger.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'Variant_Combat/AI/EnvQueryContext_Danger.h' #include 'Variant_Combat/AI/CombatEnemy.h' #..."
+- File: Source\LearningC\Variant_Combat\AI\EnvQueryContext_Danger.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'EnvironmentQuery/EnvQueryContext.h' #include 'EnvQu..."
+- File: Source\LearningC\Variant_Combat\AI\EnvQueryContext_Player.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'EnvQueryContext_Player.h' #include 'Kismet/GameplayStatics.h' #include 'EnvironmentQuery..."
+- File: Source\LearningC\Variant_Combat\AI\EnvQueryContext_Player.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'EnvironmentQuery/EnvQueryContext.h' #include 'EnvQu..."
+- File: Source\LearningC\Variant_Combat\Animation\AnimNotify_CheckChargedAttack.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'AnimNotify_CheckChargedAttack.h' #include 'CombatAttacker.h' #include 'Components/Skelet..."
+- File: Source\LearningC\Variant_Combat\Animation\AnimNotify_CheckChargedAttack.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'Animation/AnimNotifies/AnimNotify.h' #include 'Anim..."
+- File: Source\LearningC\Variant_Combat\Animation\AnimNotify_CheckCombo.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'AnimNotify_CheckCombo.h' #include 'CombatAttacker.h' #include 'Components/SkeletalMeshCo..."
+- File: Source\LearningC\Variant_Combat\Animation\AnimNotify_CheckCombo.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'Animation/AnimNotifies/AnimNotify.h' #include 'Anim..."
+- File: Source\LearningC\Variant_Combat\Animation\AnimNotify_DoAttackTrace.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'AnimNotify_DoAttackTrace.h' #include 'CombatAttacker.h' #include 'Components/SkeletalMes..."
+- File: Source\LearningC\Variant_Combat\Animation\AnimNotify_DoAttackTrace.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'Animation/AnimNotifies/AnimNotify.h' #include 'Anim..."
+- File: Source\LearningC\Variant_Combat\Gameplay\CombatActivationVolume.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'CombatActivationVolume.h' #include 'Components/BoxComponent.h' #include 'GameFramework/C..."
+- File: Source\LearningC\Variant_Combat\Gameplay\CombatActivationVolume.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/Actor.h' #include 'CombatActivationVo..."
+- File: Source\LearningC\Variant_Combat\Gameplay\CombatCheckpointVolume.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'CombatCheckpointVolume.h' #include 'CombatCharacter.h' #include 'CombatPlayerController...."
+- File: Source\LearningC\Variant_Combat\Gameplay\CombatCheckpointVolume.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/Actor.h' #include 'Components/BoxComp..."
+- File: Source\LearningC\Variant_Combat\Gameplay\CombatDamageableBox.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'CombatDamageableBox.h' #include 'Components/StaticMeshComponent.h' #include 'TimerManage..."
+- File: Source\LearningC\Variant_Combat\Gameplay\CombatDamageableBox.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/Actor.h' #include 'CombatDamageable.h..."
+- File: Source\LearningC\Variant_Combat\Gameplay\CombatDummy.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'CombatDummy.h' #include 'Components/SceneComponent.h' #include 'Components/StaticMeshCom..."
+- File: Source\LearningC\Variant_Combat\Gameplay\CombatDummy.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/Actor.h' #include 'CombatDamageable.h..."
+- File: Source\LearningC\Variant_Combat\Gameplay\CombatLavaFloor.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'CombatLavaFloor.h' #include 'CombatDamageable.h' #include 'Components/StaticMeshComponen..."
+- File: Source\LearningC\Variant_Combat\Gameplay\CombatLavaFloor.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/Actor.h' #include 'CombatLavaFloor.ge..."
+- File: Source\LearningC\Variant_Combat\Interfaces\CombatActivatable.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'CombatActivatable.h'"
+- File: Source\LearningC\Variant_Combat\Interfaces\CombatActivatable.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'UObject/Interface.h' #include 'CombatActivatable.ge..."
+- File: Source\LearningC\Variant_Combat\Interfaces\CombatAttacker.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'CombatAttacker.h' "
+- File: Source\LearningC\Variant_Combat\Interfaces\CombatAttacker.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'UObject/Interface.h' #include 'CombatAttacker.gener..."
+- File: Source\LearningC\Variant_Combat\Interfaces\CombatDamageable.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'CombatDamageable.h' // Add default functionality here for any ICombatDamageable function..."
+- File: Source\LearningC\Variant_Combat\Interfaces\CombatDamageable.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'UObject/Interface.h' #include 'CombatDamageable.gen..."
+- File: Source\LearningC\Variant_Combat\UI\CombatLifeBar.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'CombatLifeBar.h' "
+- File: Source\LearningC\Variant_Combat\UI\CombatLifeBar.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'Blueprint/UserWidget.h' #include 'CombatLifeBar.gen..."
+- File: Source\LearningC\Variant_Platforming\Animation\AnimNotify_EndDash.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'AnimNotify_EndDash.h' #include 'PlatformingCharacter.h' #include 'Components/SkeletalMes..."
+- File: Source\LearningC\Variant_Platforming\Animation\AnimNotify_EndDash.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'Animation/AnimNotifies/AnimNotify.h' #include 'Anim..."
+- File: Source\LearningC\Variant_SideScrolling\AI\SideScrollingAIController.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'SideScrollingAIController.h' #include 'GameplayStateTreeModule/Public/Components/StateTr..."
+- File: Source\LearningC\Variant_SideScrolling\AI\SideScrollingAIController.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'AIController.h' #include 'SideScrollingAIController..."
+- File: Source\LearningC\Variant_SideScrolling\AI\SideScrollingNPC.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'SideScrollingNPC.h' #include 'Engine/World.h' #include 'GameFramework/CharacterMovementC..."
+- File: Source\LearningC\Variant_SideScrolling\AI\SideScrollingNPC.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/Character.h' #include 'SideScrollingI..."
+- File: Source\LearningC\Variant_SideScrolling\AI\SideScrollingStateTreeUtility.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'SideScrollingStateTreeUtility.h' #include 'StateTreeExecutionContext.h' #include 'StateT..."
+- File: Source\LearningC\Variant_SideScrolling\AI\SideScrollingStateTreeUtility.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'StateTreeTaskBase.h' #include 'SideScrollingStateTr..."
+- File: Source\LearningC\Variant_SideScrolling\Gameplay\SideScrollingJumpPad.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'SideScrollingJumpPad.h' #include 'Components/BoxComponent.h' #include 'GameFramework/Cha..."
+- File: Source\LearningC\Variant_SideScrolling\Gameplay\SideScrollingJumpPad.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/Actor.h' #include 'SideScrollingJumpP..."
+- File: Source\LearningC\Variant_SideScrolling\Gameplay\SideScrollingMovingPlatform.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'SideScrollingMovingPlatform.h' #include 'Components/SceneComponent.h' ASideScrollingMovi..."
+- File: Source\LearningC\Variant_SideScrolling\Gameplay\SideScrollingMovingPlatform.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/Actor.h' #include 'SideScrollingInter..."
+- File: Source\LearningC\Variant_SideScrolling\Gameplay\SideScrollingPickup.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'SideScrollingPickup.h' #include 'GameFramework/Character.h' #include 'SideScrollingGameM..."
+- File: Source\LearningC\Variant_SideScrolling\Gameplay\SideScrollingPickup.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/Actor.h' #include 'SideScrollingPicku..."
+- File: Source\LearningC\Variant_SideScrolling\Gameplay\SideScrollingSoftPlatform.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'SideScrollingSoftPlatform.h' #include 'Components/SceneComponent.h' #include 'Components..."
+- File: Source\LearningC\Variant_SideScrolling\Gameplay\SideScrollingSoftPlatform.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'GameFramework/Actor.h' #include 'SideScrollingSoftP..."
+- File: Source\LearningC\Variant_SideScrolling\Interfaces\SideScrollingInteractable.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'SideScrollingInteractable.h' // Add default functionality here for any IInteractable fun..."
+- File: Source\LearningC\Variant_SideScrolling\Interfaces\SideScrollingInteractable.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'UObject/Interface.h' #include 'SideScrollingInterac..."
+- File: Source\LearningC\Variant_SideScrolling\UI\SideScrollingUI.cpp
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'SideScrollingUI.h' "
+- File: Source\LearningC\Variant_SideScrolling\UI\SideScrollingUI.h
+  Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #pragma once #include 'CoreMinimal.h' #include 'Blueprint/UserWidget.h' #include 'SideScrollingUI.g..."
+- File: Saved\ShaderDebugInfo\PCD3D_SM6\WorldGridMaterial_fa3686479b6322ac\Default\DDCKey-Editor.txt
+  Preview: "MATSM_0CA685E2213B413684FD1D90AAB5A0D2_PCD3D_SM6_3526388014__BC5N_NoCCBN_NoIris_DEV_NoSL_LWC2_VOP_0_PreExp_DBuf_UnInt_DXC1_VFO_LFV_LTRRT_SKYATM_SKYHF_..."

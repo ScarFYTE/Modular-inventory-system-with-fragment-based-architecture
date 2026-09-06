@@ -1,0 +1,60 @@
+# ============================
+# Unreal Engine — generated/build folders (NEVER commit these)
+# ============================
+Binaries/
+Build/
+DerivedDataCache/
+Intermediate/
+Saved/
+.vs/
+*.VC.db
+*.opensdf
+*.sdf
+*.sln
+*.suo
+*.xcodeproj
+*.xcworkspace
+
+# ============================
+# Compiled / packaged output
+# ============================
+*.exe
+*.pdb
+*.obj
+*.tlog
+*.ilk
+
+# ============================
+# Unreal-specific cache/tmp
+# ============================
+*.uasset.bak
+*.umap.bak
+CrashReportClient/
+Config/DefaultEditorPerProjectUserSettings.ini
+
+# ============================
+# IDE / OS junk
+# ============================
+.idea/
+.vscode/
+*.user
+Thumbs.db
+.DS_Store
+
+# ============================
+# Plugin-specific (if/when restructured as a Plugin, not a full project)
+# ============================
+Plugins/*/Binaries/
+Plugins/*/Intermediate/
+
+# ============================
+# Default UE Third Person template content — unrelated to the inventory
+# plugin itself, excluded to keep this repo focused and lean
+# ============================
+Content/Characters/Mannequins/
+Content/Variant_Combat/
+Content/Variant_Platforming/
+Content/Variant_SideScrolling/
+Source/LearningC/Variant_Combat/
+Source/LearningC/Variant_Platforming/
+Source/LearningC/Variant_SideScrolling/
