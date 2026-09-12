@@ -1,5 +1,5 @@
 ## WORKSPACE EXECUTIVE SUMMARY (YAML)
-# Generated: 2026-09-12T11:29:37.3338356+05:00
+# Generated: 2026-09-12T15:11:22.6936611+05:00
 # Root: C:\Users\Kim China\Unreal\LearningC
 Architecture:
   Type: Backend (C#/.NET)
@@ -24,8 +24,10 @@ Architecture:
 - File: Intermediate\TargetInfo.json
   Preview: "{ 	'Targets': [ 		{ 			'Name': 'LearningC', 			'Path': '..\\Source\\LearningC.Target.cs', 			'Type': 'Game' 		}, 		{ 			'Name': 'LearningCEditor', 			..."
 - File: Source\LearningC.Target.cs
+  Symbols: [base, LearningCTarget]
   Preview: "// Copyright Epic Games, Inc. All Rights Reserved. using UnrealBuildTool; using System.Collections.Generic; public class LearningCTarget : TargetRules..."
 - File: Source\LearningCEditor.Target.cs
+  Symbols: [LearningCEditorTarget, base]
   Preview: "// Copyright Epic Games, Inc. All Rights Reserved. using UnrealBuildTool; using System.Collections.Generic; public class LearningCEditorTarget : Targe..."
 - File: Saved\Logs\UnrealVersionSelector-2026.09.06-05.07.41.json
   Preview: "{'time':'2026-09-06T00:07:42','level':'Debug','message':'Setting temp directory to \u0027C:\\Users\\Kim China\\AppData\\Local\\Temp\\UnrealBuildTool\\..."
@@ -38,6 +40,7 @@ Architecture:
 - File: Saved\UnrealBuildTool\BuildConfiguration.xml
   Preview: "<?xml version='1.0' encoding='utf-8' ?> <Configuration xmlns='https://www.unrealengine.com/BuildConfiguration'> </Configuration> "
 - File: Source\LearningC\LearningC.Build.cs
+  Symbols: [base, LearningC]
   Preview: "// Copyright Epic Games, Inc. All Rights Reserved. using UnrealBuildTool; public class LearningC : ModuleRules { 	public LearningC(ReadOnlyTargetRules..."
 - File: Source\LearningC\LearningC.cpp
   Preview: "// Copyright Epic Games, Inc. All Rights Reserved. #include 'LearningC.h' #include 'Modules/ModuleManager.h' IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGa..."
@@ -122,6 +125,7 @@ Architecture:
 - File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\ItemFragment.h
   Preview: "#pragma once #include 'CoreMinimal.h' #include 'UObject/NoExportTypes.h' #include 'ItemFragment.generated.h' // This makes the fragment abstract, edit..."
 - File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\Modular_Inventory_System.Build.cs
+  Symbols: [Modular_Inventory_System, base]
   Preview: "// Copyright Epic Games, Inc. All Rights Reserved. using UnrealBuildTool; public class Modular_Inventory_System : ModuleRules { 	public Modular_Invent..."
 - File: Source\LearningC\Variant_Combat\AI\CombatAIController.cpp
   Preview: "// Copyright Epic Games, Inc. All Rights Reserved.  #include 'CombatAIController.h' #include 'Components/StateTreeAIComponent.h' ACombatAIController::..."
