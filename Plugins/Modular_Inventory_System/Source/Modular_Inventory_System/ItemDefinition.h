@@ -18,6 +18,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Instanced, BlueprintReadOnly, Category = "Item")
 		TArray<UItemFragment*> Fragments;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Inventory")
+	int32 MaxStackSize = 1;
+
 	template<class T>
 	T* FindFragmentByClass() const {
 		for (UItemFragment* Fragment : Fragments) {

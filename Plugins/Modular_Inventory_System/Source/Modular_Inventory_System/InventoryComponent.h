@@ -49,9 +49,16 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Inventory")
 	bool GetItemAtIndex(int32 Index, FInventoryItem& OutItem) const;
 
+	// Transfers a stack (or partial) from a slot in this component into DestInv.
+	// ToIndex = -1 means "find best fit"; a valid index means "target that specific slot".
+	// Returns true if anything moved.
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	bool TransferItemTo(int32 FromIndex, UInventoryComponent* DestInv, int32 ToIndex = -1);
+
 protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory")
 	TArray<FInventoryItem> InventoryItems;
+
 };

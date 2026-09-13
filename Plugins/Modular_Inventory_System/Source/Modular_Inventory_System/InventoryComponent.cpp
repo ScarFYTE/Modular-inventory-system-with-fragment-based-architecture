@@ -15,39 +15,44 @@ void UInventoryComponent::BeginPlay()
 
 void UInventoryComponent::AddItem(UItemDefinition* Def, int32 Count)
 {
-    UE_LOG(LogTemp, Warning, TEXT("AddItem called. InventoryItems.Num() = %d, SlotCount = %d"), InventoryItems.Num(), SlotCount);
     if (!Def || Count <= 0)
     {
         return;
     }
 
-    // 1. Try to stack onto an existing entry of the same item
+    const int32 MaxStack = FMath::Max(1, Def->MaxStackSize);
+    int32 Remaining = Count;
+
+    // 1. Top up existing stacks of the same item, up to their max
     for (FInventoryItem& Item : InventoryItems)
     {
-        if (Item.ItemDef == Def)
+        if (Remaining <= 0) break;
+        if (Item.ItemDef == Def && Item.StackCount < MaxStack)
         {
-            Item.StackCount += Count;
-            OnInventoryUpdated.Broadcast();
-            return;
+            const int32 Space = MaxStack - Item.StackCount;
+            const int32 ToAdd = FMath::Min(Space, Remaining);
+            Item.StackCount += ToAdd;
+            Remaining -= ToAdd;
         }
     }
 
-    // 2. Otherwise, find the first empty slot and fill it in place
+    // 2. Place any remainder into empty slots (one new stack per slot, capped)
     for (FInventoryItem& Item : InventoryItems)
     {
-        UE_LOG(LogTemp, Warning, TEXT("Checking slot — ItemDef is %s"), Item.ItemDef ? TEXT("NOT NULL") : TEXT("NULL"));
+        if (Remaining <= 0) break;
         if (Item.ItemDef == nullptr)
         {
+            const int32 ToAdd = FMath::Min(MaxStack, Remaining);
             Item.ItemDef = Def;
-            Item.StackCount = Count;
-            UE_LOG(LogTemp, Warning, TEXT("Item placed successfully. ItemDef = %s"), *Def->GetName());
-            OnInventoryUpdated.Broadcast();
-            return;
+            Item.StackCount = ToAdd;
+            Remaining -= ToAdd;
         }
     }
 
-    // 3. No stack match, no empty slot — inventory is full, silently fail
-    // (Optional: could add a UFUNCTION event here for "inventory full" UI feedback later)
+    // 3. If Remaining > 0 here, inventory couldn't fit everything (full). Silently dropped for now.
+    //    (Future: return leftover count / fire an "inventory full" event for UI feedback.)
+
+    OnInventoryUpdated.Broadcast();
 }
 
 void UInventoryComponent::RemoveItem(int32 Index, int32 Count)
@@ -96,3 +101,101 @@ bool UInventoryComponent::GetItemAtIndex(int32 Index, FInventoryItem& OutItem) c
     }
     return false;
 }
+
+bool UInventoryComponent::TransferItemTo(int32 FromIndex, UInventoryComponent* DestInv, int32 ToIndex)
+{
+    // Step 0 — same component → degrade to a plain move/swap
+    if (DestInv == this)
+    {
+        return MoveItem(FromIndex, ToIndex);
+    }
+
+    // Step 1 — validate source
+    if (!DestInv || !InventoryItems.IsValidIndex(FromIndex))
+    {
+        return false;
+    }
+
+    FInventoryItem& Source = InventoryItems[FromIndex];
+    if (Source.ItemDef == nullptr || Source.StackCount <= 0)
+    {
+        return false;
+    }
+
+    UItemDefinition* Def = Source.ItemDef;
+    const int32 MaxStack = FMath::Max(1, Def->MaxStackSize);
+    bool bMovedAnything = false;
+
+    // Step 2 — merge into existing stacks of the same item in the destination
+    if (MaxStack > 1)
+    {
+        for (FInventoryItem& DestItem : DestInv->InventoryItems)
+        {
+            if (Source.StackCount <= 0) break;
+            if (DestItem.ItemDef == Def && DestItem.StackCount < MaxStack)
+            {
+                const int32 Space = MaxStack - DestItem.StackCount;
+                const int32 Moved = FMath::Min(Space, Source.StackCount);
+                DestItem.StackCount += Moved;   // +Moved to dest
+                Source.StackCount -= Moved;    // -Moved from source (same number)
+                bMovedAnything = true;
+            }
+        }
+    }
+
+    // Step 3 — place remainder into first empty destination slot
+    if (Source.StackCount > 0)
+    {
+        for (FInventoryItem& DestItem : DestInv->InventoryItems)
+        {
+            if (DestItem.ItemDef == nullptr)
+            {
+                DestItem.ItemDef = Def;
+                DestItem.StackCount = Source.StackCount;
+                Source.StackCount = 0;
+                bMovedAnything = true;
+                break;
+            }
+        }
+    }
+
+    // Step 4 — nothing fit: if a specific target slot was given and both are single items, swap
+    if (Source.StackCount > 0 && DestInv->InventoryItems.IsValidIndex(ToIndex))
+    {
+        FInventoryItem& DestSlot = DestInv->InventoryItems[ToIndex];
+        if (Source.StackCount == 1 && DestSlot.StackCount == 1 && DestSlot.ItemDef != nullptr)
+        {
+            const FInventoryItem Temp = DestSlot;
+            DestSlot = Source;
+            Source = Temp;
+            bMovedAnything = true;
+        }
+    }
+
+    // Clear source slot if fully emptied
+    if (Source.StackCount <= 0)
+    {
+        Source = FInventoryItem();
+    }
+
+    // Fire updates on BOTH components if anything changed
+        // Fire updates on BOTH components if anything changed
+    if (bMovedAnything)
+    {
+        OnInventoryUpdated.Broadcast();
+        DestInv->OnInventoryUpdated.Broadcast();
+    }
+
+    // --- DEBUG: total item accounting to catch dupe/loss ---
+    int32 SourceTotal = 0;
+    for (const FInventoryItem& I : InventoryItems)
+        if (I.ItemDef) SourceTotal += I.StackCount;
+    int32 DestTotal = 0;
+    for (const FInventoryItem& I : DestInv->InventoryItems)
+        if (I.ItemDef) DestTotal += I.StackCount;
+
+    UE_LOG(LogTemp, Warning, TEXT("Transfer result: moved=%s | SOURCE total items=%d | DEST total items=%d | GRAND TOTAL=%d"),
+        bMovedAnything ? TEXT("YES") : TEXT("NO"), SourceTotal, DestTotal, SourceTotal + DestTotal);
+
+    return bMovedAnything;
+}   
