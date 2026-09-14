@@ -1,9 +1,9 @@
 ## WORKSPACE EXECUTIVE SUMMARY (YAML)
-# Generated: 2026-09-13T16:15:15.4678942+05:00
+# Generated: 2026-09-14T00:41:14.5896041+05:00
 # Root: C:\Users\Kim China\Unreal\LearningC
 Architecture:
   Type: Backend (C#/.NET)
-  Scale: 120 relevant source files
+  Scale: 124 relevant source files
   Components: 0
   Controllers: 0
   Models: 0
@@ -104,10 +104,16 @@ Architecture:
   Preview: "// Fill out your copyright notice in the Description page of Project Settings. #pragma once #include 'CoreMinimal.h' #include 'Components/ActorCompone..."
 - File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\InventoryDragDropOperation.h
   Preview: "#pragma once #include 'CoreMinimal.h' #include 'Blueprint/DragDropOperation.h' #include 'InventoryDragDropOperation.generated.h' UCLASS(Blueprintable,..."
+- File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\InventoryManagerComponent.cpp
+  Preview: "#include 'InventoryManagerComponent.h' #include 'InventoryComponent.h' #include 'GameFramework/Actor.h'	 #include 'Blueprint/UserWidget.h' #include 'G..."
+- File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\InventoryManagerComponent.h
+  Preview: "#pragma once #include 'CoreMinimal.h' #include 'Components/ActorComponent.h' #include 'InventoryManagerComponent.generated.h' class UInventoryComponen..."
 - File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\InventoryRulesSubsystem.cpp
   Preview: "#include 'InventoryRulesSubsystem.h' #include 'InventoryComponent.h' #include 'Engine/World.h' #include 'GameFramework/Actor.h' void UInventoryRulesSu..."
 - File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\InventoryRulesSubsystem.h
   Preview: "#pragma once #include 'ItemFragment.h' #include 'CoreMinimal.h' #include 'Subsystems/GameInstanceSubsystem.h' #include 'InventoryRulesSubsystem.genera..."
+- File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\InventoryScreenInterface.h
+  Preview: "#pragma once #include 'CoreMinimal.h' #include 'UObject/Interface.h' #include 'InventoryScreenInterface.generated.h' class UInventoryComponent; UINTER..."
 - File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\InventoryUIConfig.cpp
   Preview: "#include 'InventoryUIConfig.h' UInventoryUIStyle* UInventoryUIConfig::GetResolvedStyle() const { 	if (StyleMode == EInventoryStyleMode::Custom) 	{ 		r..."
 - File: Plugins\Modular_Inventory_System\Source\Modular_Inventory_System\InventoryUIConfig.h
