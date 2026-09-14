@@ -37,6 +37,3 @@ This system is being built with the intent of being packaged and sold as a plugi
 
 Actively in development. See `/docs` for detailed running notes on architecture decisions, known issues, and the polish backlog.
 
-## License
-
-TBD — placeholder until a license is chosen for public/commercial release.
