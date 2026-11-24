@@ -46,7 +46,32 @@ void UInventoryManagerComponent::BeginPlay()
 
 void UInventoryManagerComponent::ToggleInventory()
 {
-	// migrated logic goes here (Step 3)
+	if (!IsValid(InventoryScreen))
+	{
+		return;
+	}
+
+	APlayerController* Controller = InventoryScreen->GetOwningPlayer();
+	if (!IsValid(Controller))
+	{
+		return;
+	}
+
+	if (InventoryScreen->IsVisible())
+	{
+		InventoryScreen->SetVisibility(ESlateVisibility::Collapsed);
+		Controller->SetInputMode(FInputModeGameOnly());
+		Controller->SetShowMouseCursor(false);
+	}
+	else
+	{
+		InventoryScreen->SetVisibility(ESlateVisibility::Visible);
+		FInputModeGameAndUI InputMode;
+		InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+		InputMode.SetHideCursorDuringCapture(false);
+		Controller->SetInputMode(InputMode);
+		Controller->SetShowMouseCursor(true);
+	}
 }
 
 void UInventoryManagerComponent::RequestPickup()
