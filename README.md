@@ -8,20 +8,21 @@ Traditional inventory systems tend to rely on giant `switch` statements or type-
 
 ## Architecture
 
-The system is strictly separated into three layers:
+The system separates data, gameplay requests, and presentation:
 
 - **The Data (Model)** — `UItemDefinition` + `UItemFragment` subclasses. Items are blank containers; behavior is entirely composed from fragments.
-- **The Brains (Controller)** — `UInventoryComponent` (owns inventory state) and `UInventoryRulesSubsystem` (the single authoritative entry point for every gameplay action — drop, use, move). The UI never mutates inventory state directly; it only ever *requests* an action from the subsystem.
+- **The Brains (Controller)** — `UInventoryComponent` owns inventory state; `UInventoryRulesSubsystem` exposes drop, action, and move requests. `UInventoryManagerComponent` handles screen creation, toggling, and refresh forwarding. Pickup and interaction migration into the manager is unfinished. UI gameplay requests are intended to go through the subsystem.
 - **The Interface (View)** — a "dumb," reactive UMG layer. Widgets interrogate an item's fragments through a universal Blueprint Interface contract (`BPI_ContextAction`) to build context menus dynamically, without ever knowing what a "potion" or a "sword" is.
 
 ## Features implemented
 
-- Config-driven, persistent-slot inventory grid — capacity, layout, and slot size are all data-asset-driven (`UInventoryUIConfig`), not hardcoded
+- Config-driven, persistent-slot inventory grid — capacity comes from `UInventoryComponent.SlotCount`; visual layout comes from `UInventoryUIConfig`
 - Modular Fragment system with runtime fragment lookup (`FindFragmentByClass`)
 - Dynamic context menu generation, driven entirely by which fragments an item has
 - Fragment-specific action execution (`RequestExecuteAction`) — consuming, and easily extensible to equip/throw/etc.
-- Full drag-and-drop between inventory slots, backed by a slot-stable, fixed-size inventory array
-- In-progress: three-tier visual styling system (Preset / Custom / Advanced) so end-users of the plugin can reskin the UI without touching C++
+- Drag-and-drop swaps within one inventory, backed by a slot-stable, fixed-size array; cross-inventory drag is not connected yet
+- Cross-inventory transfer primitive with historical debug-harness testing; container UI remains planned
+- In-progress styling: Preset and Custom configuration exists in C++; widget integration remains unfinished. Advanced fields are not a third implemented mode.
 
 ## Tech stack
 
@@ -35,5 +36,5 @@ This system is being built with the intent of being packaged and sold as a plugi
 
 ## Status
 
-Actively in development. See `/docs` for detailed running notes on architecture decisions, known issues, and the polish backlog.
+Actively in development; clean-project portability and release readiness have not been demonstrated. See the [documentation index](Docs/README.md) for goals, current status, evidence, acceptance checklists, and the development log.
 

@@ -1,87 +1,90 @@
-# Inventory System — Polish & Backlog
+# Inventory System: checklist and backlog
 
-Running list of known gaps, shortcuts, and cleanup items to revisit once core functionality is stable. Not urgent — captured so nothing gets forgotten.
+Last reconciled: **2026-11-26 (Asia/Karachi)**.
+Goals and evidence rules: [README](README.md). Implementation: [project state](InventorySystem_ProjectState.md).
 
----
+This file owns task status. Priorities/order below are working recommendations unless identified as historical roadmap. An unchecked task may have partial implementation.
 
-## 1. Context Menu closes via `GetAllWidgetsOfClass` (accepted shortcut)
+## A. Current milestone: manager migration
 
-**Current state:** `WBP_MenuButton`'s click handler closes the context menu by calling `GetAllWidgetsOfClass(WBP_ContextMenu)` and removing all of them, rather than holding a direct reference to its owning menu.
+- [x] **MIG-01 — DONE:** Route Tab to manager ToggleInventory. USER-VERIFIED: “yep working fine.” Scope: runtime toggle behavior, not legacy-node cleanup.
+- [x] **MIG-02 — DONE:** Restore inventory-change refresh through RefreshScreen -> screen RefreshGrid -> grid Refresh Grid. USER-VERIFIED 2026-11-25: updates work. Final wiring not repasted.
+- [ ] **MIG-03 — OPEN:** Finish screen migration verification. Confirm Set TargetInventory before grid creation, owning-player injection, removal of disconnected legacy toggle nodes and unused InventoryUIRef if truly unused. Verify one grid on initialization and correct initial populated display. Completion: inspect final graphs and targeted runtime checks, recording individual outcomes.
+- [ ] **MIG-04 — IN PROGRESS (graphs inspected 2026-11-26):** Migrate pickup orchestration. Setter success stores pickup; cast failure clears it. F validates pickup, adds Count=1, then destroys actor unconditionally. User is writing C++; next proposed step is manager weak actor storage and BlueprintCallable setter, followed by native pickup-data contract and safe addition. Completion: F routes through manager; nearby item is tracked/cleared correctly; successful pickup updates inventory; failure preserves the world item; no demo-character dependency added. Coordinate SAFE-01 before finalizing the request contract.
+- [ ] **MIG-05 — OPEN:** Resolve gameplay inventory selection when multiple components exist. FindComponentByClass chooses a match, not a semantic role. Completion: verify chosen strategy and test Inventory + TestInventory without selecting the wrong one.
+- [ ] **MIG-06 — OPEN:** Run full post-migration regression checklist below. Toggle and aggregate refresh reports do not close every case.
 
-**Why it's fine for now:** Matches an existing pattern already used in `Left Click On Inventory Item` (which does the same thing before spawning a new menu). Works perfectly for single-player, single-menu-at-a-time use.
+## B. Data correctness and integration
 
-**Revisit when:** You ever need multiple context menus open simultaneously (split-screen, multi-window UI, etc.) — at that point, switch to:
-- **Option A:** Add an `OwningMenu` (WBP_ContextMenu ref) variable to `WBP_MenuButton`, set it in `Populate Menu`, call `RemoveFromParent` on that specific reference.
-- **Option B:** Event dispatcher on `WBP_MenuButton` (`OnActionSelected`) that `WBP_ContextMenu` binds to per-button in `Populate Menu`.
+| ID / status | Finding and evidence | Completion check |
+| --- | --- | --- |
+| SAFE-01 / OPEN, before pickup is considered complete | AddItem returns void and cannot communicate partial/full rejection (INSPECTED). Pasted F-key graph directly confirms unconditional destruction after adding Count=1. | Define accepted/remaining or equivalent success contract; full inventory preserves pickup, partial acceptance preserves remainder, successful pickup adds exactly once. Test quantities. |
+| SAFE-02 / OPEN, before release | Drop removes an item after spawn attempt regardless of success; valid empty slots also pass the index check (INSPECTED). | Reject empty/invalid source; remove only after successful pickup creation/initialization; test failed spawn and success without loss/duplication. |
+| SAFE-03 / OPEN, before container UI | Menu and OnDrop inventory ownership ambiguous in handoffs; exact current wiring uninspected. | Trace slot -> menu -> button -> subsystem with correct inventory, slot index, fragment, and instigator; test two inventories with different items at equal slot indices. |
+| SAFE-04 / OPEN, before release | Grid Config validation recommended historically, not freshly inspected. | Missing Config fails clearly without Accessed None; assigned Config builds intended layout. |
+| SAFE-05 / OPEN, before release | No current full dependency/clean-project audit. | Install in clean UE 5.7 project, configure documented integration, build/run core flows without demo-character or legacy project redirect dependency. |
 
----
+## C. Historical looting roadmap and present progress
 
-## 2. Direct casts to `BP_ThirdPersonCharacter` scattered across blueprints
+The former Phase 0-7 plan is preserved here with corrected implementation status.
 
-**Where:**
-- `BP_ItemPickup` — both overlap events (`OnComponentBeginOverlap`, `OnComponentEndOverlap`) cast directly to `BP_ThirdPersonCharacter_C`
-- `WBP_InventorySlot` — `Left Click On Inventory Item` and `Right Click On Inventory Item` both cast directly to `BP_ThirdPersonCharacter_C`
+- [x] **LOOT-00 — DONE (HISTORICAL):** Transfer decision table and source-inventory drag design recorded. Existing behavior is merge-first, first-empty next, targeted single-item swap fallback. Revisit targeted-slot UX explicitly before cross-grid drag.
+- [x] **LOOT-01 — DONE (HISTORICAL; current screen repairs in MIG-02):** Screen shell, injected grid TargetInventory, slot OwningInventory. Earlier regression success reported.
+- [x] **LOOT-02 — DONE (primitive only):** TransferItemTo implemented; conservation tests reported near 7effd91. This does not include the subsystem wrapper or cross-grid UI.
+- [ ] **LOOT-03 — OPEN (assets present):** Verify BPI_Lootable, pickup null inventory, and container inventory at runtime. Completion: both contracts demonstrated; test seed data identified.
+- [ ] **LOOT-04 — PLANNED/OPEN:** Multi-source vicinity detection and loot-session lifecycle through RequestInteract. Completion: all nearby lootables tracked, valid container opens session, leaving range/Escape closes it; ownership of session state documented. Historical notes split screen lifecycle and player/controller session state; settle the boundary before coding.
+- [ ] **LOOT-05 — PLANNED/OPEN:** Ground-loot list. Depends on LOOT-04 and SAFE-01. Completion: nearby lightweight pickups listed, acquired safely, and removed from list when gone.
+- [ ] **LOOT-06 — PLANNED/OPEN:** Container panel and cross-inventory actions. Add subsystem RequestTransferItem and SourceInventory drag payload; route same/different inventories appropriately. Depends on SAFE-03 and transfer decision DEC-02. Completion: two-grid transfer tests conserve quantities, refresh both panels, and cover partial/full/swap/self cases.
+- [ ] **LOOT-07 — PLANNED/OPEN:** UVicinityLootConfig after both UI modes work. Completion: mode, radius, and layout settings produce documented behavior.
 
-**Why it matters:** Blocks building a clean, reusable Interaction System — any future actor type (AI, other player characters, etc.) that should be able to pick up/interact with items can't, because the logic is hardcoded to one concrete class.
+## D. Styling, polish, and cleanup
 
-**Fix direction:** Introduce an interaction interface (e.g. `BPI_Interactor` or similar) that exposes what's actually needed (get inventory component, get instigator actor) instead of casting to the concrete character class.
+| ID / status | Work | Completion check |
+| --- | --- | --- |
+| UI-01 / OPEN | Finish style integration; C++ Preset/Custom exists, handoffs report no style assets or widget callers | Presets and custom assets visibly style filled/empty/hovered slots and text; missing-style behavior defined |
+| UI-02 / OPEN | Drag visual, historically deferred | Correct item icon follows pointer and disappears on completion/cancel |
+| UI-03 / OPEN when menu behavior expands | Replace or explicitly retain global GetAllWidgetsOfClass menu cleanup based on intended one-menu policy | Closing an action menu respects intended ownership with multiple panels; two grids alone do not prove two simultaneous menus are required |
+| UI-04 / OPEN | Failed-action feedback | Failed pickup/action/transfer has clear feedback without false success |
+| CLEAN-01 / OPEN after real transfer UI | Remove TestInventory, debug input harness, total-count logging; review container seed data | Production flow does not depend on scaffolding; deliberate demo content documented |
+| DEBT-01 / DEFERRED | Reflection dispatch and raw result enum | Preserve ABI/order now; if replaced, verify consuming, non-consuming, and failed actions |
+| DEBT-02 / DEFERRED | Richer action result | Only add when a concrete need exceeds existing Success/Failed/ConsumeItem semantics |
+| EXT-01 / DEFERRED until looting complete | Screen host for buyer-supplied tabs | Product boundary defined; buyers own non-inventory content |
 
----
+## E. Decisions not yet settled
 
-## 3. `DropItem` custom event on `BP_ThirdPersonCharacter` duplicates `RequestDropItem` logic
+| ID | Question | Needed by |
+| --- | --- | --- |
+| DEC-01 | Multiplayer, split-screen, persistence, controller input, equipment/crafting scope? | Before work depends on these capabilities; not all required to resume pickup |
+| DEC-02 | Should a targeted drop honor the exact slot rather than current merge/first-empty behavior? | LOOT-06 |
+| DEC-03 | Which manager behaviors need Blueprint extension hooks versus native implementation? | Pickup/interaction API design |
+| DEC-04 | Is Advanced a distinct styling mode or advanced fields within Preset/Custom? | UI-01 |
+| DEC-05 | Is DeltaHealth a signed delta or heal-only host convention? | Extending health integration |
+| DEC-06 | What are exact buyer setup and release acceptance requirements? | SAFE-05 / release planning |
 
-**Current state:** The character's `DropItem` custom event does `GetArrayItem → SpawnActorFromClass → RemoveItem` directly, instead of calling `UInventoryRulesSubsystem::RequestDropItem` (which already does this authoritatively and is used elsewhere, e.g. right-click drop from the inventory slot).
+These are open questions, not assumed product requirements.
 
-**Why it matters:** Two different code paths for "drop an item" means bug fixes / rule changes (e.g. spawn offset, collision handling) have to be made twice, and they can silently drift out of sync.
+## F. Full regression checklist for MIG-06
 
-**Fix direction:** Replace the body of `DropItem` with a call to `RequestExecuteAction`-style subsystem call — i.e. route it through `RequestDropItem` like everything else does.
+Fresh full run pending. User toggle and aggregate refresh confirmations remain recorded in MIG-01/02.
 
----
+- [ ] Tab opens/closes repeatedly with correct cursor/input behavior, including after UI clicks.
+- [ ] Correct inventory selected; only one intended player grid initialized.
+- [ ] Initially populated inventory displays before a new mutation.
+- [ ] Nearby-item tracking sets/clears correctly; pickup succeeds once.
+- [ ] Full inventory does not destroy an unaccepted world pickup; partial acceptance preserves remainder if supported.
+- [ ] Stack caps and spill behavior correct.
+- [ ] Correct slot icons/counts; last-item removal clears visuals.
+- [ ] Context menu actions execute the selected fragment on the intended item.
+- [ ] Consume applies intended host effect and decrements exactly once.
+- [ ] Successful drop spawns the intended pickup and removes exactly one; failed drop preserves inventory.
+- [ ] Same-inventory swap works; self-drop is a no-op; empty slots do not start drags.
+- [ ] Menu closes according to intended policy; no relevant runtime Blueprint errors.
 
-## 4. `EActionResult` conflates "did it succeed" with "should it consume a stack"
+Record environment, build/revision, test cases, actual results, and failures in the log. New container features require their own transfer matrix, not this single-inventory checklist alone.
 
-**Current state:** Single enum (`Success`, `Failed`, `ConsumeItem`) used as `ExecuteAction`'s return value. Works for Consumable today.
+## G. Superseded old backlog items
 
-**Why it might matter later:** An action could succeed *and not* consume a stack (e.g. Equip — equipping shouldn't remove the item from inventory), or fail but still need some cleanup. The current enum can't cleanly express "succeeded, don't consume."
-
-**Fix direction (only if/when a non-consuming action type is added):** Split into two outputs — a bool `bSuccess` and a separate bool/enum for `bShouldConsumeStack` — or a small struct `FActionResult` with both fields.
-
----
-
-## 5. `RequestExecuteAction`'s reflection-based dispatch (technical debt, works fine for now)
-
-**Current state:** Since `BPI_ContextAction` is a pure Blueprint interface (no native C++ class), `RequestExecuteAction` calls it via `FindFunction` + manual `ProcessEvent` + a hand-built param struct, rather than a clean native `Execute_X()` call.
-
-**Why it's fine for now:** Works correctly, matches how Blueprint's own `K2Node_Message` does it internally.
-
-**Revisit when:** If `BPI_ContextAction` ever gets promoted to a native C++ interface (e.g. for performance reasons, or because more C++ systems need to call it), this can be simplified to a direct `IBPI_ContextAction::Execute_ExecuteAction(...)` call.
-
----
-
-## 6. No UI feedback on failed actions
-
-**Current state:** If `ExecuteAction` returns `Failed` (e.g. wrong instigator type), nothing currently informs the player — no message, no sound, no menu shake, etc.
-
-**Fix direction:** Once core actions are all in, add a simple feedback path (Print String → replace with actual UI/audio feedback) for failed action attempts.
-
----
-
-## 7. Health system is minimal
-
-**Current state:** `Health` float + `MaxHealth` + `Heal(float Amount)` on the character. No damage system integration confirmed yet, no UI health bar mentioned.
-
-**Fix direction:** Revisit once combat/damage systems are further along — confirm `Heal` plays nicely with whatever damage/death flow exists, add UI hookup if not already present.
-
----
-
-## 8. No visual feedback while dragging (drag-and-drop)
-
-**Current state:** Drag-and-drop between inventory slots is fully functional (`OnDragDetected` → `UInventoryDragDropOperation` → `OnDrop` → `RequestMoveItem`), but there's no icon/ghost image following the cursor during the drag — the item visually stays put in its original slot until the drop completes and the grid refreshes.
-
-**Why it's fine for now:** Functional correctness was the priority for this pass — the actual move logic works correctly end-to-end. Purely cosmetic gap.
-
-**Fix direction:** In `OnDragDetected`, before returning the `Operation`, set its `DefaultDragVisual` (a widget, e.g. a simple Image showing the dragged item's icon) and `Pivot` (usually `MouseDown` so it follows the cursor naturally). Can reuse the slot's own icon texture (`SlotData`'s UI fragment icon) to build this visual on the fly.
-
----
-
-*Last updated: Drag-and-drop feature completed — full move loop confirmed working (OnDragDetected → OnDrop → RequestMoveItem), one bugfix along the way (unwired InventoryComp pin on RequestMoveItem call).*
+- Direct demo-character casts: historically resolved in two passes; final portability audit remains SAFE-05.
+- Duplicate character DropItem event: historically removed as dead code.
+- “Success without consuming cannot be expressed”: incorrect; Success already represents that outcome.
+- Full demo health/combat system: not an established inventory-plugin requirement.

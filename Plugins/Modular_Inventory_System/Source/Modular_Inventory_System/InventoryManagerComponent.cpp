@@ -77,6 +77,12 @@ void UInventoryManagerComponent::ToggleInventory()
 void UInventoryManagerComponent::RequestPickup()
 {
 	// migrated logic goes here (Step 4)
+	if (!IsValid(Inventory)) return;
+
+	auto Player = Inventory->GetOwner();
+	
+	AActor* Item = NearbyItem.Get();
+
 }
 
 void UInventoryManagerComponent::RequestInteract()

@@ -1,42 +1,56 @@
-# Modular Inventory & Item System (Unreal Engine)
+# Modular Inventory System: documentation
 
-A data-driven, ECS-inspired inventory and item management system for Unreal Engine, built in C++ with a Blueprint-friendly authoring layer. Designed to scale to hundreds of unique items without ever touching core gameplay logic again.
+Last reconciled: **2026-11-25 (Asia/Karachi)**.
 
-## Why this exists
+## Read in this order
 
-Traditional inventory systems tend to rely on giant `switch` statements or type-checking to decide what an item does. This system instead strips items down to blank containers (`UItemDefinition`, a `UPrimaryDataAsset`) and builds their behavior entirely from small, modular **Fragments** snapped onto them — a Mesh Fragment for how it looks when dropped, a UI Fragment for its icon, a Consumable Fragment for what happens when you use it, and so on. Adding a new item type never means editing the inventory's core code — only adding a new Fragment class.
+1. [Project state](InventorySystem_ProjectState.md): current behavior, architecture, evidence, and resumption point.
+2. [Checklist and backlog](InventorySystem_PolishBacklog.md): stable task IDs, priorities, completion checks, and unresolved decisions.
+3. [Development log](InventorySystem_DevelopmentLog.md): changes, test reports, and corrections.
+4. [Historical notes](Archive/2026-11-25/README.md): preserved input documents, not current instructions.
 
-## Architecture
+## Product goals
 
-The system is strictly separated into three layers:
+Build a **modular, fragment-based, plug-and-play, extremely user-friendly Unreal Engine inventory plugin**. Current engine: UE 5.7. Recorded distribution intent: Fab.
 
-- **The Data (Model)** — `UItemDefinition` + `UItemFragment` subclasses. Items are blank containers; behavior is entirely composed from fragments.
-- **The Brains (Controller)** — `UInventoryComponent` (owns inventory state) and `UInventoryRulesSubsystem` (the single authoritative entry point for every gameplay action — drop, use, move). The UI never mutates inventory state directly; it only ever *requests* an action from the subsystem.
-- **The Interface (View)** — a "dumb," reactive UMG layer. Widgets interrogate an item's fragments through a universal Blueprint Interface contract (`BPI_ContextAction`) to build context menus dynamically, without ever knowing what a "potion" or a "sword" is.
+- Compose item capabilities with fragments without item-type branches in core inventory code.
+- Integrate through components and interfaces without dependencies on the demo character.
+- Keep buyer setup explicit and small: documented assignments, defaults, interfaces, and input routing.
+- Support reusable inventory panels, lightweight ground pickups, and inventory-bearing containers.
+- Configure layout and styling without rewriting widget graphs.
+- Preserve quantities, stable slots, and correct UI updates.
 
-## Features implemented
+These are goals, not a claim of release readiness. Manager pickup, looting UI, styling integration, and clean-project validation remain outstanding.
 
-- Config-driven, persistent-slot inventory grid — capacity, layout, and slot size are all data-asset-driven (`UInventoryUIConfig`), not hardcoded
-- Modular Fragment system with runtime fragment lookup (`FindFragmentByClass`)
-- Dynamic context menu generation, driven entirely by which fragments an item has
-- Fragment-specific action execution (`RequestExecuteAction`) — consuming, and easily extensible to equip/throw/etc.
-- Full drag-and-drop between inventory slots, backed by a slot-stable, fixed-size inventory array
-- In-progress: three-tier visual styling system (Preset / Custom / Advanced) so end-users of the plugin can reskin the UI without touching C++
+The recorded roadmap includes inventory, vicinity looting, containers, configurable visuals, and later a host for buyer-supplied tabs. Multiplayer, split-screen, save/load, equipment, crafting, and controller navigation have not been established as implementation commitments. Demo health is not a commitment to a full combat system.
 
-## Tech stack
+## Evidence and status conventions
 
-- Unreal Engine 5.7
-- C++ for all authoritative gameplay logic and data types
-- Blueprint for fragment behavior, UI, and widget composition
+| Evidence | Meaning |
+| --- | --- |
+| USER-VERIFIED | User reported behavior working; not an independent agent playtest |
+| INSPECTED | Current source or pasted graph supports the claim; runtime behavior not implied |
+| HISTORICAL | Earlier notes, handoff, or commit report; not freshly verified |
+| PLANNED | Intended work, not completed |
+| UNKNOWN | Missing or contradictory evidence |
 
-## Project goal
+Task statuses: DONE, IN PROGRESS, OPEN, DECISION NEEDED, DEFERRED. A checked checkbox applies only to its stated scope. Old test success is not a new test pass.
 
-This system is being built with the intent of being packaged and sold as a plugin on the Unreal Marketplace / Fab — so configurability, clean separation of concerns, and end-user-friendly setup are treated as first-class requirements throughout, not an afterthought.
+Code establishes implementation, user decisions establish intent, and pasted graphs establish the supplied wiring. A document's age or confident wording cannot override direct evidence. Asset names alone do not prove graph execution.
 
-## Status
+## Ongoing maintenance
 
-Actively in development. See `/docs` for detailed running notes on architecture decisions, known issues, and the polish backlog.
+The user requested continuing documentation on 2026-11-25. After each meaningful change or test report:
 
-## License
+1. Update the affected current-state contract, with exact names and evidence limits.
+2. Update the existing checklist ID and completion checks.
+3. Append a dated development-log entry: change, reason, verification, and outstanding work.
+4. Update the resumption point. Instructions given but not confirmed remain open.
+5. Distinguish local changes from committed changes; never invent build/playtest results.
+6. Resolve stale claims explicitly and preserve useful lessons.
 
-TBD — placeholder until a license is chosen for public/commercial release.
+Use precise, small Blueprint steps followed by verification. This repository's Docs folder is the maintained copy. Supplied external originals remain unchanged.
+
+## Current learning preference (2026-11-26)
+
+The user wants to write RequestPickup themselves while learning Unreal C++. They explicitly clarified that they know standard C++; focus on Unreal APIs, reflection macros, UObject lifetime, components, and Blueprint/native integration. Avoid basic C++ syntax exercises. Review their attempts without writing the complete gameplay implementation or editing it on their behalf unless requested. Nearby-pickup ownership and the successful-add contract still require design and inspection.

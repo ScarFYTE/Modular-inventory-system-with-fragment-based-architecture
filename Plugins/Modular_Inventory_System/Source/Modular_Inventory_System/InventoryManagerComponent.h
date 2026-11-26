@@ -6,12 +6,16 @@
 
 class UInventoryComponent;
 class UUserWidget;
+class AActor;
+
 
 UCLASS(ClassGroup = (Inventory), meta = (BlueprintSpawnableComponent))
 class MODULAR_INVENTORY_SYSTEM_API UInventoryManagerComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
+	UPROPERTY(Transient)
+	TWeakObjectPtr<AActor> NearbyItem;
 public:
 	UInventoryManagerComponent();
 
@@ -36,6 +40,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void RequestInteract();
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory|Interaction")
+	void SetNearbyItem(AActor* Item);
 
 	UFUNCTION()
 	void HandleInventoryUpdated();
