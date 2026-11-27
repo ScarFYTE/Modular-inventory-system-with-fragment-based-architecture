@@ -20,7 +20,7 @@ Build a **modular, fragment-based, plug-and-play, extremely user-friendly Unreal
 - Configure layout and styling without rewriting widget graphs.
 - Preserve quantities, stable slots, and correct UI updates.
 
-These are goals, not a claim of release readiness. Manager pickup works by user report; subsystem routing and detailed verification remain outstanding, alongside looting UI, styling integration, and clean-project validation.
+These are goals, not a claim of release readiness. Manager pickup through the rules subsystem works by user report; header cleanup and detailed verification remain outstanding, alongside looting UI, styling integration, and clean-project validation.
 
 The recorded roadmap includes inventory, vicinity looting, containers, configurable visuals, and later a host for buyer-supplied tabs. Multiplayer, split-screen, save/load, equipment, crafting, and controller navigation have not been established as implementation commitments. Demo health is not a commitment to a full combat system.
 

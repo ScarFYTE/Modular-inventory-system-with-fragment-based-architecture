@@ -146,6 +146,13 @@ Evidence: local Git history, supplied notes, and handoffs; not fresh runtime tes
 - Next instructed wiring: manager obtains GameInstance through UGameplayStatics, obtains its existing InventoryRulesSubsystem, validates both, and replaces its direct AddItem call. Actor removal remains conditional on accepted count.
 - Gameplay code unchanged by assistant. No new build or runtime verification performed.
 
+## 2026-11-27: subsystem-connected pickup reported working
+
+- User confirmed "yep works fine" after subsystem wiring instructions. Recorded as aggregate user verification, not individual edge-case results.
+- Source inspection confirms guarded GameInstance/subsystem lookup, one RequestPickupItem call, conditional actor removal/reference reset, and request validation for objects and positive count.
+- Misplaced UCLASS and include typo corrected. Header still says `class ItemDefinition;`; instructed correction to `class UItemDefinition;` remains pending.
+- Next: header cleanup, then explicit full-inventory, repeated-input, and leaving-range checks. No independent build or playtest performed; no gameplay source edited by assistant.
+
 ## Entry template
 
 - Date and task ID:

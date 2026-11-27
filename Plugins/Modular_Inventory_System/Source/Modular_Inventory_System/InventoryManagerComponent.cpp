@@ -94,12 +94,17 @@ void UInventoryManagerComponent::RequestPickup()
 	if (!IsValid(Item)) return;
 
 	if (!Item->Implements<UInventoryPickupInterface>()) return;
-
 	UItemDefinition* ItemDef = IInventoryPickupInterface::Execute_GetPickupItemDefinition(Item);
-
 	if (!IsValid(ItemDef)) return;
 
-	int32 added = Inventory->AddItem(ItemDef);
+	UGameInstance* GameInstance = UGameplayStatics::GetGameInstance(this);
+	if (!IsValid(GameInstance)) return;
+
+	
+	UInventoryRulesSubsystem* Rules = GameInstance->GetSubsystem<UInventoryRulesSubsystem>();
+	if (!IsValid(Rules)) return;
+	
+	int32 added = Rules->RequestPickupItem(Inventory, ItemDef , 1);
 
 	if (added == 1) {
 		Item->Destroy();

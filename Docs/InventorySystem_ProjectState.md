@@ -4,13 +4,13 @@ Last reconciled: **2026-11-27 (Asia/Karachi)**. Conventions and goals: [README](
 
 ## 1. Current milestone and exact next step
 
-**Active: finish manager-component migration.** Tab toggle, inventory-change refresh, and Blueprint-connected manager pickup work according to user reports. Pickup currently calls the inventory directly; subsystem routing remains pending. Interaction remains empty.
+**Active: finish manager-component migration.** Tab toggle, inventory-change refresh, and Blueprint-connected manager pickup work according to user reports. Pickup now routes through InventoryRulesSubsystem. Interaction remains empty.
 
-**Resume with MIG-04 / SAFE-01:** User is authoring C++ with Unreal-specific guidance. Inspected 2026-11-27: RequestPickup uses guarded pickup-interface dispatch, calls AddItem once, and only when the accepted count is 1 calls Destroy and resets NearbyItem. Zero accepted leaves the actor/reference intact. User subsequently reported "yep works now" after instructions to rebuild, forward nearby-item changes, route F through the manager, and test pickup. Record the connected flow as USER-VERIFIED overall; final Blueprint graphs and individual full-inventory/repeated-input outcomes were not supplied. Next: route pickup inventory mutation through InventoryRulesSubsystem; current pickups represent one item.
+**Resume with MIG-04 / SAFE-01:** User is authoring C++ with Unreal-specific guidance. Inspected 2026-11-27: RequestPickup validates the GameInstance and rules subsystem, calls RequestPickupItem once, and only when the accepted count is 1 calls Destroy and resets NearbyItem. The subsystem validates both objects and positive count, then returns AddItem's accepted count. User reports this wiring works. Next: correct the remaining forward declaration and explicitly verify full-inventory, repeated-input, and leaving-range behavior. Current pickups represent one item; final Blueprint graphs and individual test outcomes remain uninspected.
 
 Earlier baseline inspected: `4093e16`. At the final repository check, HEAD had advanced to `00cfb5a` (2026-11-25), committing the local toggle implementation and character/screen asset changes. WBP_InventoryScreen.uasset still has additional uncommitted changes. The documentation updates are also uncommitted. Exact final Blueprint wiring is not established merely by changed files. The documenting agent performed no commit, build, or independent playtest.
 
-**Current review / next step:** RequestPickupItem declaration and implementation are present. Implementation validates both objects and returns one AddItem call's accepted count. Header mistakenly has UCLASS() before `class ItemDefinition;` (must be plain `class UItemDefinition;`); cpp include is misspelled ItemDefiniton.h. These prevent a successful build. Nonpositive count is currently rejected downstream by AddItem; add explicit request-boundary validation for the intended contract. After corrections, retrieve the GameInstance's existing InventoryRulesSubsystem in manager RequestPickup, validate it, and replace the direct AddItem call with RequestPickupItem. This wiring is instructed, not implemented or tested. Manager retains world-actor handling.
+**Current review / next step:** Misplaced UCLASS and misspelled cpp include are corrected, count validation and subsystem wiring are implemented, and user reports success. InventoryRulesSubsystem.h still declares `class ItemDefinition;` rather than `class UItemDefinition;`; correct this explicit forward declaration. No independent build was run. Manager retains world-actor handling.
 
 | Area | State | Evidence |
 | --- | --- | --- |
@@ -19,7 +19,7 @@ Earlier baseline inspected: `4093e16`. At the final repository check, HEAD had a
 | Manager Tab toggle | User reports working after rewiring | USER-VERIFIED; C++ INSPECTED |
 | Screen initialization | Construct disconnected; interface event creates grid | INSPECTED pasted graph |
 | Inventory-change UI refresh | Working after RefreshScreen hookup | USER-VERIFIED; final event graph not repasted |
-| Manager pickup/interact | Single-item manager pickup working by user report; direct inventory mutation remains to route through subsystem. Interaction empty | C++ INSPECTED + pickup USER-VERIFIED overall |
+| Manager pickup/interact | Single-item pickup routes through rules subsystem and works by user report. Interaction empty | C++ INSPECTED + pickup USER-VERIFIED overall |
 | TransferItemTo | Implemented; historical debug conservation tests | INSPECTED + HISTORICAL |
 | Cross-grid drag / RequestTransferItem wrapper | Not implemented in inspected native code | INSPECTED |
 | Lootable/container assets | Present; no current container UI test | INSPECTED existence; HISTORICAL contracts |
@@ -88,6 +88,7 @@ ToIndex does not prioritize a specific empty destination slot. Swap checks remai
 ### Rules subsystem
 
 - RequestMoveItem delegates to MoveItem.
+- RequestPickupItem validates inventory, definition, and positive count; returns the accepted count from one AddItem call. Manager uses it for single-item pickup.
 - RequestDropItem removes one item after attempting spawn, without requiring spawn success. It also does not reject a valid empty slot by checking ItemDef. See SAFE-02.
 - RequestExecuteAction dispatches the selected fragment through FindFunction("ExecuteAction") / ProcessEvent; raw result 2 consumes one item.
 - Recorded enum order: Success=0, Failed=1, ConsumeItem=2.
@@ -99,7 +100,7 @@ BeginPlay finds the owner's first matching inventory component, binds OnInventor
 
 ToggleInventory validates screen/controller. Closing uses Collapsed, GameOnly, cursor off. Opening uses Visible, GameAndUI, DoNotLock, and visible cursor during capture. It does not explicitly focus the widget; the old graph did. The user reports the new toggle works.
 
-HandleInventoryUpdated calls interface RefreshScreen. InitializeScreen(UInventoryComponent*) and RefreshScreen() are native BlueprintNativeEvents. SetNearbyItem assigns a transient TWeakObjectPtr<AActor>. RequestPickup validates Inventory and the nearby actor, checks pickup-interface support, dispatches the definition getter, and validates its result. It directly calls AddItem once and stores the accepted count; count 1 triggers Item->Destroy() and NearbyItem.Reset(), while count 0 leaves the pickup intact. User reports the connected pickup flow works; final Blueprint graphs and individual edge-case test results remain uninspected. Subsystem routing remains outstanding. RequestInteract remains empty.
+HandleInventoryUpdated calls interface RefreshScreen. InitializeScreen(UInventoryComponent*) and RefreshScreen() are native BlueprintNativeEvents. SetNearbyItem assigns a transient TWeakObjectPtr<AActor>. RequestPickup validates Inventory and the nearby actor, checks pickup-interface support, dispatches the definition getter, and validates its result. It obtains/validates GameInstance and its InventoryRulesSubsystem, calls RequestPickupItem once, and stores the accepted count; count 1 triggers Item->Destroy() and NearbyItem.Reset(), while count 0 leaves the pickup intact. User reports the subsystem-connected pickup flow works; final Blueprint graphs and individual edge-case test results remain uninspected. RequestInteract remains empty.
 
 No explicit initial refresh is called by the manager; inspect grid construction before diagnosing startup display behavior. FindComponentByClass cannot distinguish gameplay Inventory from TestInventory by role. Controller selection is currently single-player-oriented.
 

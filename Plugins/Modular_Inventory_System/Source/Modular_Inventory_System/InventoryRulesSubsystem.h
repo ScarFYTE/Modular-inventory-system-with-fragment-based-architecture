@@ -9,7 +9,7 @@
 
 class UInventoryComponent;
 class AActor;
-class ItemDefinition;
+class UItemDefinition;
 
 
 UCLASS()
