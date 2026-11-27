@@ -3,6 +3,7 @@
 #include "GameFramework/Actor.h"	
 #include "Blueprint/UserWidget.h"
 #include "GameFramework/PlayerController.h"
+#include "ItemDefinition.h"
 #include "InventoryScreenInterface.h"	
 
 UInventoryManagerComponent::UInventoryManagerComponent()
@@ -74,16 +75,35 @@ void UInventoryManagerComponent::ToggleInventory()
 	}
 }
 
+
+void UInventoryManagerComponent::SetNearbyItem(AActor* Item)
+{
+	NearbyItem = Item;
+}
+
+
 void UInventoryManagerComponent::RequestPickup()
 {
 	// migrated logic goes here (Step 4)
 	if (!IsValid(Inventory)) return;
 
-	auto Player = Inventory->GetOwner();
-	
 	AActor* Item = NearbyItem.Get();
+	if (!IsValid(Item)) return;
 
+	if (!Item->Implements<UInventoryPickupInterface>()) return;
+
+	UItemDefinition* ItemDef = IInventoryPickupInterface::Execute_GetPickupItemDefinition(Item);
+
+	if (!IsValid(ItemDef)) return;
+
+	int32 added = Inventory->AddItem(ItemDef);
+
+	if (added == 1) {
+		Item->Destroy();
+		NearbyItem.Reset();
+	}
 }
+
 
 void UInventoryManagerComponent::RequestInteract()
 {

@@ -35,7 +35,7 @@ public:
 	FOnInventoryUpdated OnInventoryUpdated;
 
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
-	void AddItem(UItemDefinition* ItemDef, int32 Count = 1);
+	int32 AddItem(UItemDefinition* ItemDef, int32 Count = 1);
 
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void RemoveItem(int32 Index, int32 Count = 1);

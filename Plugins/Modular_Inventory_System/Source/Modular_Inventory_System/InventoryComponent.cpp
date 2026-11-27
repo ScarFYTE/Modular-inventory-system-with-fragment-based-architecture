@@ -13,11 +13,11 @@ void UInventoryComponent::BeginPlay()
     InventoryItems.SetNum(SlotCount);
 }
 
-void UInventoryComponent::AddItem(UItemDefinition* Def, int32 Count)
+int32 UInventoryComponent::AddItem(UItemDefinition* Def, int32 Count)
 {
     if (!Def || Count <= 0)
     {
-        return;
+        return 0;
     }
 
     const int32 MaxStack = FMath::Max(1, Def->MaxStackSize);
@@ -51,8 +51,14 @@ void UInventoryComponent::AddItem(UItemDefinition* Def, int32 Count)
 
     // 3. If Remaining > 0 here, inventory couldn't fit everything (full). Silently dropped for now.
     //    (Future: return leftover count / fire an "inventory full" event for UI feedback.)
+	const int32 AddedCount = Count - Remaining;
 
-    OnInventoryUpdated.Broadcast();
+	if (AddedCount > 0)
+	{
+		OnInventoryUpdated.Broadcast();
+	}
+
+	return AddedCount;
 }
 
 void UInventoryComponent::RemoveItem(int32 Index, int32 Count)

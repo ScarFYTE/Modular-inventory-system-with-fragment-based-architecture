@@ -1,6 +1,6 @@
 # Inventory System: checklist and backlog
 
-Last reconciled: **2026-11-26 (Asia/Karachi)**.
+Last reconciled: **2026-11-27 (Asia/Karachi)**.
 Goals and evidence rules: [README](README.md). Implementation: [project state](InventorySystem_ProjectState.md).
 
 This file owns task status. Priorities/order below are working recommendations unless identified as historical roadmap. An unchecked task may have partial implementation.
@@ -10,7 +10,7 @@ This file owns task status. Priorities/order below are working recommendations u
 - [x] **MIG-01 — DONE:** Route Tab to manager ToggleInventory. USER-VERIFIED: “yep working fine.” Scope: runtime toggle behavior, not legacy-node cleanup.
 - [x] **MIG-02 — DONE:** Restore inventory-change refresh through RefreshScreen -> screen RefreshGrid -> grid Refresh Grid. USER-VERIFIED 2026-11-25: updates work. Final wiring not repasted.
 - [ ] **MIG-03 — OPEN:** Finish screen migration verification. Confirm Set TargetInventory before grid creation, owning-player injection, removal of disconnected legacy toggle nodes and unused InventoryUIRef if truly unused. Verify one grid on initialization and correct initial populated display. Completion: inspect final graphs and targeted runtime checks, recording individual outcomes.
-- [ ] **MIG-04 — IN PROGRESS (graphs inspected 2026-11-26):** Migrate pickup orchestration. Setter success stores pickup; cast failure clears it. F validates pickup, adds Count=1, then destroys actor unconditionally. User is writing C++; next proposed step is manager weak actor storage and BlueprintCallable setter, followed by native pickup-data contract and safe addition. Completion: F routes through manager; nearby item is tracked/cleared correctly; successful pickup updates inventory; failure preserves the world item; no demo-character dependency added. Coordinate SAFE-01 before finalizing the request contract.
+- [ ] **MIG-04 — IN PROGRESS:** Manager setter, guarded pickup-interface dispatch, and accepted-count handling inspected. RequestPickup calls AddItem once; accepted count 1 triggers actor destruction and weak-reference reset. User reports connected pickup flow works following Blueprint integration instructions (2026-11-27). Final graphs and individual edge-case outcomes not supplied. Next: subsystem routing and explicit remaining verification. Completion: F routes through manager; nearby item is tracked/cleared correctly; successful pickup updates inventory; failure preserves the world item; no demo-character dependency added.
 - [ ] **MIG-05 — OPEN:** Resolve gameplay inventory selection when multiple components exist. FindComponentByClass chooses a match, not a semantic role. Completion: verify chosen strategy and test Inventory + TestInventory without selecting the wrong one.
 - [ ] **MIG-06 — OPEN:** Run full post-migration regression checklist below. Toggle and aggregate refresh reports do not close every case.
 
@@ -18,7 +18,7 @@ This file owns task status. Priorities/order below are working recommendations u
 
 | ID / status | Finding and evidence | Completion check |
 | --- | --- | --- |
-| SAFE-01 / OPEN, before pickup is considered complete | AddItem returns void and cannot communicate partial/full rejection (INSPECTED). Pasted F-key graph directly confirms unconditional destruction after adding Count=1. | Define accepted/remaining or equivalent success contract; full inventory preserves pickup, partial acceptance preserves remainder, successful pickup adds exactly once. Test quantities. |
+| SAFE-01 / IN PROGRESS, before pickup is considered complete | Source inspected 2026-11-27: accepted-count return and change-only broadcast implemented. Manager only destroys pickup/resets nearby reference when AddItem accepts 1. User reports connected pickup works after instructions to replace old F execution path; final graph not repasted. | Record individual full-inventory and repeated-input outcomes; verify F uses manager exclusively. Verify rejected/partial/full add counts and refresh changed Blueprint nodes. Current world pickup is one item; multi-count remainder handling is not implemented. |
 | SAFE-02 / OPEN, before release | Drop removes an item after spawn attempt regardless of success; valid empty slots also pass the index check (INSPECTED). | Reject empty/invalid source; remove only after successful pickup creation/initialization; test failed spawn and success without loss/duplication. |
 | SAFE-03 / OPEN, before container UI | Menu and OnDrop inventory ownership ambiguous in handoffs; exact current wiring uninspected. | Trace slot -> menu -> button -> subsystem with correct inventory, slot index, fragment, and instigator; test two inventories with different items at equal slot indices. |
 | SAFE-04 / OPEN, before release | Grid Config validation recommended historically, not freshly inspected. | Missing Config fails clearly without Accessed None; assigned Config builds intended layout. |

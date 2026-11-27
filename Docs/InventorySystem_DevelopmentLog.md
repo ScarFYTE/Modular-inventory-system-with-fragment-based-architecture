@@ -67,6 +67,70 @@ Evidence: local Git history, supplied notes, and handoffs; not fresh runtime tes
 - Proposed next teaching step: manager stores TWeakObjectPtr<AActor> with a BlueprintCallable setter. Native pickup-data interface and safe addition follow; this is a proposal, not an implemented/approved final contract.
 - Source files remain user-authored; this turn changes documentation only. No compile or test result claimed.
 
+## 2026-11-27: manager setter present; pickup-data interface next (MIG-04)
+
+- Inspected user-authored manager: transient weak NearbyItem member, BlueprintCallable SetNearbyItem declaration, and assignment body present.
+- RequestPickup guards Inventory, gets Inventory owner into an unused Player variable, and resolves NearbyItem; resolved actor validation and actual pickup remain missing.
+- Next guided addition: header-only native InventoryPickupInterface with BlueprintNativeEvent GetPickupItemDefinition, implemented by BP_ItemPickup to return ItemDef. This interface is instructed, not yet implemented or tested.
+- Safe-add result and subsystem pickup request must follow before replacing the working F-key path. Existing AddItem is still void.
+- Agent edited documentation only; no source edits, build, or runtime test performed.
+
+## 2026-11-27: reported build failure during pickup setup
+
+- Supplied output is a Blueprint asset scan: 27 parse failures (EOF/overflow), ending with Parsing Blueprints - Done. It contains no C++ compiler/UHT failure diagnostic; scanner compatibility or asset problems cannot be resolved from this output alone.
+- Inspected InventoryPickupInterface.h: present at the correct plugin source path and matches the instructed declaration. Compilation not yet verified.
+- Independently found a definite C++ syntax error in current RequestPickup: `if(IsValid(Item))` is immediately followed by the function's closing brace, with no statement/body.
+- Instructed user to replace that incomplete line with `if (!IsValid(Item)) return;` and rebuild. User authors the source fix; no agent code edit/build performed.
+- If failure remains, obtain the actual Build output rather than the Blueprint scan output. No asset deletion or recovery advised based only on scanner failures.
+
+## 2026-11-27: build succeeds; pickup interface added (MIG-04)
+
+- User reported: “yes compiled correctly and added the interface to BP_Itempickup.”
+- Native build and interface addition are USER-VERIFIED. This does not establish that GetPickupItemDefinition returns ItemDef yet, or that the manager pickup path works end to end.
+- Next: wire the getter return in BP_ItemPickup; safe-add result and subsystem request remain pending. No agent gameplay edits or independent build/test performed.
+
+## 2026-11-27: getter wiring completed; accepted-count result next
+
+- User reported completion of GetPickupItemDefinition returning BP_ItemPickup.ItemDef. Recorded as user-reported setup; no independent graph inspection/runtime dispatch test.
+- Reinspected AddItem: still void with cap-aware merge/spill loops and unconditional update broadcast for valid input.
+- Instructed minimal return-contract change in header and implementation: int32 accepted quantity, 0 for invalid input, Count - Remaining after existing loops, broadcast only if accepted > 0.
+- Reflected signature change requires a native rebuild/reload and checking existing Blueprint Add Item nodes. Old pickup caller remains unsafe until it consumes the result; this step alone does not resolve SAFE-01.
+- No agent gameplay edits/build/test performed. User authors the implementation.
+
+## 2026-11-27: learning boundary reinforced
+
+- User corrected the assistant for supplying implementation code during the AddItem step.
+- Going forward, code examples are limited to Unreal-specific features; standard C++ and algorithmic implementation are left to the user. Explain contracts and review attempts instead of supplying complete solutions.
+- No new implementation or test completion reported. Accepted-count AddItem work remains pending review.
+
+## 2026-11-27: pickup build failure inspected
+
+- User reported build failure. Source contains FindComponentByClass<UItemDefinition>(); local UE Actor.h explicitly requires a UActorComponent subclass. UItemDefinition is a data asset, so this is an Unreal API/type mismatch.
+- Correction explained for the user to author: include pickup interface and item definition headers, check interface support, then call Execute_GetPickupItemDefinition on the actor. Gameplay source was not edited by the assistant.
+- AddItem accepted-count return and change-only broadcast are now present in inspected source. RequestPickup ignores that result; safe pickup remains incomplete.
+- No successful rebuild or runtime test claimed for these changes; additional compiler errors have not been ruled out.
+
+## 2026-11-27: pickup interface build fix confirmed
+
+- User replied "yep it works now" after the build correction. Recorded as user-confirmed build fix; specific end-to-end runtime scenarios were not reported.
+- Source inspected: RequestPickup checks Implements<UInventoryPickupInterface>(), calls Execute_GetPickupItemDefinition, and validates the returned definition.
+- AddItem result is still ignored and world actor removal is absent. Next learning step: handle accepted count for single-item pickup; subsystem routing and Blueprint forwarding remain pending.
+- Documentation updated only; user continues authoring gameplay source.
+
+## 2026-11-27: accepted-count pickup branch reviewed
+
+- User reported completing the branch. Source inspection confirms one AddItem call, stored int32 result, and Destroy plus NearbyItem.Reset only when accepted count equals 1.
+- Matches the current single-item pickup contract; zero accepted leaves the world pickup intact. No successful build or runtime test of this latest branch was reported.
+- Next: rebuild, connect/verify Blueprint forwarding, and test successful/full-inventory/repeated pickup behavior. Subsystem routing remains outstanding.
+- Documentation updated; no gameplay code edited by the assistant.
+
+## 2026-11-27: connected manager pickup reported working
+
+- User replied "yep works now" after rebuild, Blueprint forwarding, and pickup-test instructions. Connected pickup flow is USER-VERIFIED overall.
+- Final Blueprint graphs were not repasted; individual full-inventory/repeated-input test outcomes were not specified. Do not interpret the aggregate report as an independent audit of every test.
+- Next architecture step: route inventory mutation through InventoryRulesSubsystem. Current manager directly calls AddItem; current pickup contract is one item.
+- Documentation updated only; no gameplay code changed by the assistant.
+
 ## Entry template
 
 - Date and task ID:

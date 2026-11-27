@@ -2,6 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "InventoryPickupInterface.h"
+#include "ItemDefinition.h"
 #include "InventoryManagerComponent.generated.h"
 
 class UInventoryComponent;

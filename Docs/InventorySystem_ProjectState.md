@@ -1,12 +1,12 @@
 # Inventory System: current project state
 
-Last reconciled: **2026-11-26 (Asia/Karachi)**. Conventions and goals: [README](README.md).
+Last reconciled: **2026-11-27 (Asia/Karachi)**. Conventions and goals: [README](README.md).
 
 ## 1. Current milestone and exact next step
 
-**Active: finish manager-component migration.** Tab toggle and inventory-change refresh work according to user playtests. Manager pickup and interaction remain empty placeholders.
+**Active: finish manager-component migration.** Tab toggle, inventory-change refresh, and Blueprint-connected manager pickup work according to user reports. Pickup currently calls the inventory directly; subsystem routing remains pending. Interaction remains empty.
 
-**Resume with MIG-04:** F-key and SetNearbyItem graphs were inspected on 2026-11-26. User is authoring C++ with Unreal-specific guidance. Next proposed step: manager stores a weak actor reference and exposes a BlueprintCallable setter; later introduce a native pickup-data contract and successful-add handling before switching input. No setter/pickup implementation is yet verified.
+**Resume with MIG-04 / SAFE-01:** User is authoring C++ with Unreal-specific guidance. Inspected 2026-11-27: RequestPickup uses guarded pickup-interface dispatch, calls AddItem once, and only when the accepted count is 1 calls Destroy and resets NearbyItem. Zero accepted leaves the actor/reference intact. User subsequently reported "yep works now" after instructions to rebuild, forward nearby-item changes, route F through the manager, and test pickup. Record the connected flow as USER-VERIFIED overall; final Blueprint graphs and individual full-inventory/repeated-input outcomes were not supplied. Next: route pickup inventory mutation through InventoryRulesSubsystem; current pickups represent one item.
 
 Earlier baseline inspected: `4093e16`. At the final repository check, HEAD had advanced to `00cfb5a` (2026-11-25), committing the local toggle implementation and character/screen asset changes. WBP_InventoryScreen.uasset still has additional uncommitted changes. The documentation updates are also uncommitted. Exact final Blueprint wiring is not established merely by changed files. The documenting agent performed no commit, build, or independent playtest.
 
@@ -17,7 +17,7 @@ Earlier baseline inspected: `4093e16`. At the final repository check, HEAD had a
 | Manager Tab toggle | User reports working after rewiring | USER-VERIFIED; C++ INSPECTED |
 | Screen initialization | Construct disconnected; interface event creates grid | INSPECTED pasted graph |
 | Inventory-change UI refresh | Working after RefreshScreen hookup | USER-VERIFIED; final event graph not repasted |
-| Manager pickup/interact | Empty functions | INSPECTED |
+| Manager pickup/interact | Single-item manager pickup working by user report; direct inventory mutation remains to route through subsystem. Interaction empty | C++ INSPECTED + pickup USER-VERIFIED overall |
 | TransferItemTo | Implemented; historical debug conservation tests | INSPECTED + HISTORICAL |
 | Cross-grid drag / RequestTransferItem wrapper | Not implemented in inspected native code | INSPECTED |
 | Lootable/container assets | Present; no current container UI test | INSPECTED existence; HISTORICAL contracts |
@@ -74,7 +74,7 @@ InventoryComponent::BeginPlay sizes InventoryItems to SlotCount.
 
 | Method | Behavior and limitations |
 | --- | --- |
-| AddItem | Merge to stack cap, then fill empty slots. Returns void; no accepted/remaining count. Unfitted remainder is not stored. |
+| AddItem | Merge to stack cap, then fill empty slots. Returns int32 accepted count; invalid input returns 0; broadcasts only on change. Source inspected; user confirmed build fix works. Return-count runtime tests remain unverified. Unfitted remainder is not stored. |
 | RemoveItem | Positive count decrements a valid slot; exhausted entry resets in place; broadcasts. |
 | GetItemAtIndex | True means valid index, including empty slots. Check ItemDef for occupancy. |
 | MoveItem | Reject invalid/same indices; otherwise swap and broadcast. |
@@ -97,7 +97,7 @@ BeginPlay finds the owner's first matching inventory component, binds OnInventor
 
 ToggleInventory validates screen/controller. Closing uses Collapsed, GameOnly, cursor off. Opening uses Visible, GameAndUI, DoNotLock, and visible cursor during capture. It does not explicitly focus the widget; the old graph did. The user reports the new toggle works.
 
-HandleInventoryUpdated calls interface RefreshScreen. InitializeScreen(UInventoryComponent*) and RefreshScreen() are native BlueprintNativeEvents. RequestPickup and RequestInteract remain empty.
+HandleInventoryUpdated calls interface RefreshScreen. InitializeScreen(UInventoryComponent*) and RefreshScreen() are native BlueprintNativeEvents. SetNearbyItem assigns a transient TWeakObjectPtr<AActor>. RequestPickup validates Inventory and the nearby actor, checks pickup-interface support, dispatches the definition getter, and validates its result. It directly calls AddItem once and stores the accepted count; count 1 triggers Item->Destroy() and NearbyItem.Reset(), while count 0 leaves the pickup intact. User reports the connected pickup flow works; final Blueprint graphs and individual edge-case test results remain uninspected. Subsystem routing remains outstanding. RequestInteract remains empty.
 
 No explicit initial refresh is called by the manager; inspect grid construction before diagnosing startup display behavior. FindComponentByClass cannot distinguish gameplay Inventory from TestInventory by role. Controller selection is currently single-player-oriented.
 
