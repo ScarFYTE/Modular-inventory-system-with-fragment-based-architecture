@@ -1,16 +1,16 @@
 # Inventory System: current project state
 
-Last reconciled: **2026-11-27 (Asia/Karachi)**. Conventions and goals: [README](README.md).
+Last reconciled: **2026-11-28 (Asia/Karachi)**. Conventions and goals: [README](README.md).
 
 ## 1. Current milestone and exact next step
 
 **Active: finish manager-component migration.** Tab toggle, inventory-change refresh, and Blueprint-connected manager pickup work according to user reports. Pickup now routes through InventoryRulesSubsystem. Interaction remains empty.
 
-**Resume with MIG-04 / SAFE-01:** User is authoring C++ with Unreal-specific guidance. Inspected 2026-11-27: RequestPickup validates the GameInstance and rules subsystem, calls RequestPickupItem once, and only when the accepted count is 1 calls Destroy and resets NearbyItem. The subsystem validates both objects and positive count, then returns AddItem's accepted count. User reports this wiring works. Next: correct the remaining forward declaration and explicitly verify full-inventory, repeated-input, and leaving-range behavior. Current pickups represent one item; final Blueprint graphs and individual test outcomes remain uninspected.
+**Resume with MIG-03, then MIG-06:** Single-item pickup and deterministic inventory selection are complete within their tested scopes. User reports all six selection cases passed, including shared selection for pickup/UI. InventoryName is an optional component tag: unset selects only a sole owner inventory; configured requires exactly one matching inventory; missing/ambiguous selection logs a warning and leaves Inventory null. Next: verify final screen initialization graphs and remove confirmed unused legacy UI paths; then run broader migration regression. Interaction/looting remains future work.
 
 Earlier baseline inspected: `4093e16`. At the final repository check, HEAD had advanced to `00cfb5a` (2026-11-25), committing the local toggle implementation and character/screen asset changes. WBP_InventoryScreen.uasset still has additional uncommitted changes. The documentation updates are also uncommitted. Exact final Blueprint wiring is not established merely by changed files. The documenting agent performed no commit, build, or independent playtest.
 
-**Current review / next step:** Misplaced UCLASS and misspelled cpp include are corrected, count validation and subsystem wiring are implemented, and user reports success. InventoryRulesSubsystem.h still declares `class ItemDefinition;` rather than `class UItemDefinition;`; correct this explicit forward declaration. No independent build was run. Manager retains world-actor handling.
+**Current verification (2026-11-28):** Final diagnostic placeholder correction inspected. User reports all requested selection cases passed: no components; sole untagged configuration; multiple without selection; unique matching tag; missing tag; duplicate tag. Runtime evidence is USER-VERIFIED, not an independent assistant playtest. No gameplay implementation changed by the assistant.
 
 | Area | State | Evidence |
 | --- | --- | --- |
@@ -96,7 +96,7 @@ ToIndex does not prioritize a specific empty destination slot. Swap checks remai
 
 ### Manager
 
-BeginPlay finds the owner's first matching inventory component, binds OnInventoryUpdated, creates the configured screen using the world's first player controller, adds/collapses it, then calls InitializeScreen(Inventory).
+BeginPlay enumerates the owner's inventory components. If InventoryName is None, only a sole inventory is selected; otherwise exactly one component with that component tag is required. Missing/ambiguous cases log warnings and leave Inventory null. Successful selection binds OnInventoryUpdated, creates the configured screen using the world's first player controller, adds/collapses it, then calls InitializeScreen(Inventory). User verified all six selection cases on 2026-11-28.
 
 ToggleInventory validates screen/controller. Closing uses Collapsed, GameOnly, cursor off. Opening uses Visible, GameAndUI, DoNotLock, and visible cursor during capture. It does not explicitly focus the widget; the old graph did. The user reports the new toggle works.
 

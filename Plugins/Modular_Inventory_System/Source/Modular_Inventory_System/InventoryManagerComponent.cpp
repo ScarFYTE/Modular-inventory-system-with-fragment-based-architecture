@@ -19,8 +19,47 @@ void UInventoryManagerComponent::BeginPlay()
 	Super::BeginPlay();
 
 	if (AActor* OwnerActor = GetOwner())
-	{
-		Inventory = OwnerActor->FindComponentByClass<UInventoryComponent>();
+	{	
+		TArray<UInventoryComponent*> InventoryComponents;
+		OwnerActor->GetComponents<UInventoryComponent>(InventoryComponents);
+		
+		if(InventoryComponents.Num() <= 0 )
+		{
+			UE_LOG(LogTemp, Warning, TEXT("No InventoryComponent found on %s"), *OwnerActor->GetName());
+		}
+
+		// Find the inventory component with the matching name
+
+		else if (InventoryName.IsNone()) {
+			if (InventoryComponents.Num() == 1)
+			{
+				Inventory = InventoryComponents[0];
+			}
+			else {
+				UE_LOG(LogTemp, Warning, TEXT("Multiple InventoryComponents found on %s"), *OwnerActor->GetName());
+			}
+		}
+		else {
+			TArray<UInventoryComponent*> InventoryComponentsFound;
+			for (UInventoryComponent* InvComp : InventoryComponents)
+			{
+				if (InvComp && InvComp->ComponentHasTag(InventoryName))
+				{
+					InventoryComponentsFound.Add(InvComp);
+				}
+			}
+			if (InventoryComponentsFound.Num() > 0) {
+				if (InventoryComponentsFound.Num() == 1) {
+					Inventory = InventoryComponentsFound[0];
+				}
+				else {
+					UE_LOG(LogTemp, Warning, TEXT("Multiple Inventory Components that share the Intended Tag Found on %s"), *OwnerActor->GetName());
+				}
+			}
+			else {
+				UE_LOG(LogTemp, Warning, TEXT("No Inventory Component with the Intended Tag Found on %s"), *OwnerActor->GetName());
+			}
+		}
 	}
 
 	// Bind refresh to inventory changes

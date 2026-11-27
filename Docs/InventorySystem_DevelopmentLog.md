@@ -153,6 +153,55 @@ Evidence: local Git history, supplied notes, and handoffs; not fresh runtime tes
 - Misplaced UCLASS and include typo corrected. Header still says `class ItemDefinition;`; instructed correction to `class UItemDefinition;` remains pending.
 - Next: header cleanup, then explicit full-inventory, repeated-input, and leaving-range checks. No independent build or playtest performed; no gameplay source edited by assistant.
 
+## 2026-11-27: single-item pickup verified; inventory selection next
+
+- User confirmed the requested full-inventory, repeated-input, and leaving-range checks behave as intended. MIG-04 closed for single-item pickup; broader regression remains open.
+- Inspected correct UItemDefinition forward declaration. No independent build or playtest performed.
+- User requested behavior-first task explanations followed by independent implementation, with Unreal-specific help on request. Recorded learning preference.
+- Next task MIG-05: optional component-tag selection with exactly-one-match rules; default auto-selection only for one inventory. Setup failure must not choose an arbitrary component or initialize UI against one.
+- Assigned locations: InventoryManagerComponent.h configuration and InventoryManagerComponent.cpp BeginPlay selection before binding/widget creation. No gameplay code changed.
+
+## 2026-11-28: first inventory-selection implementation reviewed
+
+- User requested review; inspected InventoryManagerComponent.h/.cpp without editing gameplay code.
+- Correct: collects owner inventory components into a typed TArray before delegate/UI initialization.
+- Compile blocker: BlueprintCallable on FName property; verified local UE 5.7 UHT restricts this property specifier to multicast delegates.
+- Behavior issues: DefaultInventory sentinel chooses first component even when ambiguous; GetFName compares object names rather than component tags; missing configured match fails silently. Tag implementation must also count all matches before committing selection.
+- Next: revise configuration and selection contract, then build and run the single/zero/multiple/mismatched/duplicate-match matrix. No build/playtest run during review.
+
+## 2026-11-28: second inventory-selection review
+
+- Confirmed header correction: removed BlueprintCallable, uses BlueprintReadOnly/EditDefaultsOnly and NAME_None.
+- New type error: ComponentHasTag returns bool, but result is compared with FName. Explained direct predicate use.
+- Branch trace: unset tag with one inventory enters the first warning branch, making auto-selection unreachable. Configured tag with multiple inventories enters the earlier search branch, making the later branch/diagnostic unreachable.
+- Search still assigns/breaks on first match, so duplicate tags cannot be rejected. Missing-match reporting must follow the actual search. Remaining unreachable code uses old object-name comparison and mismatched log arguments.
+- No gameplay source edits, build, or runtime tests; user to revise and resubmit.
+
+## 2026-11-28: third inventory-selection review
+
+- Corrected unset/configured branching and ComponentHasTag predicate; single-inventory automatic selection and configured zero-match warning are now reachable.
+- Remaining: early assignment/break accepts duplicate tags; initial zero-inventory warning falls through into multiple-inventory warning when tag unset; no-match UE_LOG has actor argument without %s.
+- Explained why boolean found distinguishes none/some but cannot establish uniqueness. User to revise; no gameplay edits, build, or playtest performed by assistant.
+
+## 2026-11-28: fourth inventory-selection review
+
+- Tagged matches now collected into a separate array; Inventory assigned only for one match. Duplicate detection fixed.
+- User chose else-if after zero-inventory check rather than return. This correctly prevents selection-branch fallthrough; existing null guards skip binding and screen creation. Accepted this equivalent solution.
+- Remaining: no configured-zero-match warning; duplicate warning contains `% s` rather than `%s`. Boolean found is redundant with array count but not a correctness issue.
+- No gameplay edits, build, or runtime tests performed; diagnostics correction and test matrix next.
+
+## 2026-11-28: fifth inventory-selection review
+
+- Zero-tag-match diagnostic restored, duplicate-warning placeholder corrected, and redundant found flag removed.
+- One remaining typo: new zero-match warning uses `% s`; instructed `%s` at cpp line 60. Selection logic passes source review; build/runtime matrix not yet verified.
+- Documentation only updated; no gameplay edits or build performed.
+
+## 2026-11-28: inventory-selection matrix passed
+
+- User reported "all test Cases Passe" in response to the six-case selection matrix and pickup/UI consistency check. Recorded all requested cases as USER-VERIFIED.
+- Inspected final zero-match log placeholder correction. MIG-05 marked DONE for BeginPlay selection; runtime switching remains outside scope.
+- Next: MIG-03 final screen initialization/legacy-path verification, followed by MIG-06 broader regression. No independent build/playtest or gameplay source edits performed by assistant.
+
 ## Entry template
 
 - Date and task ID:

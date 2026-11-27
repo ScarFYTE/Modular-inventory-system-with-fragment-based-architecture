@@ -1,6 +1,6 @@
 # Inventory System: checklist and backlog
 
-Last reconciled: **2026-11-27 (Asia/Karachi)**.
+Last reconciled: **2026-11-28 (Asia/Karachi)**.
 Goals and evidence rules: [README](README.md). Implementation: [project state](InventorySystem_ProjectState.md).
 
 This file owns task status. Priorities/order below are working recommendations unless identified as historical roadmap. An unchecked task may have partial implementation.
@@ -10,17 +10,17 @@ This file owns task status. Priorities/order below are working recommendations u
 - [x] **MIG-01 — DONE:** Route Tab to manager ToggleInventory. USER-VERIFIED: “yep working fine.” Scope: runtime toggle behavior, not legacy-node cleanup.
 - [x] **MIG-02 — DONE:** Restore inventory-change refresh through RefreshScreen -> screen RefreshGrid -> grid Refresh Grid. USER-VERIFIED 2026-11-25: updates work. Final wiring not repasted.
 - [ ] **MIG-03 — OPEN:** Finish screen migration verification. Confirm Set TargetInventory before grid creation, owning-player injection, removal of disconnected legacy toggle nodes and unused InventoryUIRef if truly unused. Verify one grid on initialization and correct initial populated display. Completion: inspect final graphs and targeted runtime checks, recording individual outcomes.
-- [ ] **MIG-04 — VERIFYING:** Manager setter, guarded interface dispatch, subsystem routing, and accepted-count handling inspected. RequestPickup calls RequestPickupItem once; accepted count 1 triggers actor destruction and weak-reference reset. User reports subsystem-connected pickup works (2026-11-27). Next: correct header forward declaration and verify full-inventory/repeated-input/leaving-range cases. Final graphs and individual edge-case outcomes not supplied. Completion: F routes through manager; nearby item is tracked/cleared correctly; successful pickup updates inventory; failure preserves the world item; no demo-character dependency added.
-- [ ] **MIG-05 — OPEN:** Resolve gameplay inventory selection when multiple components exist. FindComponentByClass chooses a match, not a semantic role. Completion: verify chosen strategy and test Inventory + TestInventory without selecting the wrong one.
+- [x] **MIG-04 — DONE (single-item scope):** Native manager/interface/subsystem flow inspected; header cleanup corrected. User confirmed successful pickup, full-inventory rejection, repeated F without duplication, and leaving-range protection on 2026-11-27. Final Blueprint wiring is user-verified, not independently inspected. Multi-source vicinity and multi-count world pickups are outside this scope.
+- [x] **MIG-05 — DONE:** Final implementation/diagnostics inspected. USER-VERIFIED 2026-11-28: all six requested cases passed (zero inventories; one without selection; multiple without selection; unique tag; missing tag; duplicate tag), including selected inventory shared by pickup/UI. Scope: BeginPlay selection; runtime inventory switching not implemented.
 - [ ] **MIG-06 — OPEN:** Run full post-migration regression checklist below. Toggle and aggregate refresh reports do not close every case.
 
 ## B. Data correctness and integration
 
-MIG-04 latest source review (2026-11-27): misplaced UCLASS and include typo corrected; count validation and manager subsystem wiring implemented. User reports success. Remaining header cleanup: change `class ItemDefinition;` to `class UItemDefinition;`. Individual edge-case verification remains open.
+MIG-04 final review (2026-11-27): header cleanup inspected and targeted single-item pickup checks confirmed by user. Broader inventory regression and clean-project portability remain separate open tasks.
 
 | ID / status | Finding and evidence | Completion check |
 | --- | --- | --- |
-| SAFE-01 / IN PROGRESS, before pickup is considered complete | Source inspected 2026-11-27: accepted-count return and change-only broadcast implemented. Manager only destroys pickup/resets nearby reference when AddItem accepts 1. User reports connected pickup works after instructions to replace old F execution path; final graph not repasted. | Record individual full-inventory and repeated-input outcomes; verify F uses manager exclusively. Verify rejected/partial/full add counts and refresh changed Blueprint nodes. Current world pickup is one item; multi-count remainder handling is not implemented. |
+| SAFE-01 / single-item pickup VERIFIED; batch regression OPEN | Accepted-count return and change-only broadcast inspected. User confirms successful/full-inventory/repeated-input/leaving-range checks. Manager removes actor only on acceptance. | General AddItem rejected/partial/full batch-count regression remains open. Current world pickup is one item; multi-count remainder handling is not implemented. |
 | SAFE-02 / OPEN, before release | Drop removes an item after spawn attempt regardless of success; valid empty slots also pass the index check (INSPECTED). | Reject empty/invalid source; remove only after successful pickup creation/initialization; test failed spawn and success without loss/duplication. |
 | SAFE-03 / OPEN, before container UI | Menu and OnDrop inventory ownership ambiguous in handoffs; exact current wiring uninspected. | Trace slot -> menu -> button -> subsystem with correct inventory, slot index, fragment, and instigator; test two inventories with different items at equal slot indices. |
 | SAFE-04 / OPEN, before release | Grid Config validation recommended historically, not freshly inspected. | Missing Config fails clearly without Accessed None; assigned Config builds intended layout. |

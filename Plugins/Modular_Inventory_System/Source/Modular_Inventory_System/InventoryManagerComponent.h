@@ -22,8 +22,11 @@ public:
 	UInventoryManagerComponent();
 
 	// The inventory this manager drives. Set in BeginPlay by finding it on the owning actor (Option B).
-	UPROPERTY(BlueprintReadOnly, Category = "Inventory")
+	UPROPERTY(BlueprintReadOnly,Category = "Inventory")
 	UInventoryComponent* Inventory = nullptr;
+
+	UPROPERTY (EditDefaultsOnly, BlueprintReadOnly)
+	FName InventoryName = NAME_None;
 
 	// The screen widget class to spawn (set this in the editor per-project).
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory|UI")

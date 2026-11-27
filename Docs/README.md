@@ -1,6 +1,6 @@
 # Modular Inventory System: documentation
 
-Last reconciled: **2026-11-27 (Asia/Karachi)**.
+Last reconciled: **2026-11-28 (Asia/Karachi)**.
 
 ## Read in this order
 
@@ -20,7 +20,7 @@ Build a **modular, fragment-based, plug-and-play, extremely user-friendly Unreal
 - Configure layout and styling without rewriting widget graphs.
 - Preserve quantities, stable slots, and correct UI updates.
 
-These are goals, not a claim of release readiness. Manager pickup through the rules subsystem works by user report; header cleanup and detailed verification remain outstanding, alongside looting UI, styling integration, and clean-project validation.
+These are goals, not a claim of release readiness. Single-item manager pickup through the rules subsystem, its rejection/cleanup checks, and deterministic multiple-inventory selection work by user report. Final screen migration verification, broader regression, looting UI, styling integration, and clean-project validation remain outstanding.
 
 The recorded roadmap includes inventory, vicinity looting, containers, configurable visuals, and later a host for buyer-supplied tabs. Multiplayer, split-screen, save/load, equipment, crafting, and controller navigation have not been established as implementation commitments. Demo health is not a commitment to a full combat system.
 
@@ -56,3 +56,5 @@ Use precise, small Blueprint steps followed by verification. This repository's D
 The user wants to write the implementation themselves while learning Unreal C++. They know standard C++. On 2026-11-27 they explicitly reinforced: provide code snippets only for Unreal-specific features (APIs, reflection macros, UObject lifetime, components, Blueprint/native integration). Do not supply complete function bodies, ordinary C++ conditions/loops, or algorithmic solutions unless explicitly requested. Describe desired behavior and acceptance criteria, explain the Unreal boundary, then review their attempt. This applies even to small functions; do not turn learning steps into copy/paste implementations.
 
 On 2026-11-27 the user additionally requested exact change locations: always name the file and the class/function or insertion point for each step. Use clickable absolute file links in chat.
+
+Latest learning preference (2026-11-27): explain the next task's purpose, responsibilities, behavior, and acceptance checks first, then let the user implement independently. Offer Unreal-specific syntax/API help when requested rather than supplying it proactively. Review their implementation afterward.
