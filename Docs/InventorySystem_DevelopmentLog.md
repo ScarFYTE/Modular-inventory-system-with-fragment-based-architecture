@@ -131,6 +131,21 @@ Evidence: local Git history, supplied notes, and handoffs; not fresh runtime tes
 - Next architecture step: route inventory mutation through InventoryRulesSubsystem. Current manager directly calls AddItem; current pickup contract is one item.
 - Documentation updated only; no gameplay code changed by the assistant.
 
+## 2026-11-27: subsystem pickup step assigned
+
+- User approved continuing and requested exact file/insertion locations for every change; recorded this learning preference in README.
+- Inspected InventoryRulesSubsystem header/implementation: move, drop, and action requests exist; pickup request does not yet exist.
+- Assigned declaration and user-authored implementation of RequestPickupItem: validated inventory/definition/count, int32 accepted result from one AddItem call. World actor lifetime stays with the manager. This is an instructed step, not an implemented change.
+- Next: review user implementation, then explain Unreal GameInstance subsystem retrieval in the manager and replace its direct AddItem call.
+
+## 2026-11-27: subsystem pickup implementation reviewed
+
+- RequestPickupItem validates both UObject inputs and returns the result of a single AddItem call; differing parameter names between declaration and definition are legal C++.
+- Found build blockers: UCLASS() decorating `class ItemDefinition;` rather than a plain UItemDefinition forward declaration, and misspelled ItemDefiniton.h include.
+- Nonpositive counts already return zero through AddItem; explicit request-level validation remains instructed for the intended boundary contract.
+- Next instructed wiring: manager obtains GameInstance through UGameplayStatics, obtains its existing InventoryRulesSubsystem, validates both, and replaces its direct AddItem call. Actor removal remains conditional on accepted count.
+- Gameplay code unchanged by assistant. No new build or runtime verification performed.
+
 ## Entry template
 
 - Date and task ID:

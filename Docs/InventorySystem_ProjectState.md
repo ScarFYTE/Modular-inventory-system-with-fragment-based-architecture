@@ -10,6 +10,8 @@ Last reconciled: **2026-11-27 (Asia/Karachi)**. Conventions and goals: [README](
 
 Earlier baseline inspected: `4093e16`. At the final repository check, HEAD had advanced to `00cfb5a` (2026-11-25), committing the local toggle implementation and character/screen asset changes. WBP_InventoryScreen.uasset still has additional uncommitted changes. The documentation updates are also uncommitted. Exact final Blueprint wiring is not established merely by changed files. The documenting agent performed no commit, build, or independent playtest.
 
+**Current review / next step:** RequestPickupItem declaration and implementation are present. Implementation validates both objects and returns one AddItem call's accepted count. Header mistakenly has UCLASS() before `class ItemDefinition;` (must be plain `class UItemDefinition;`); cpp include is misspelled ItemDefiniton.h. These prevent a successful build. Nonpositive count is currently rejected downstream by AddItem; add explicit request-boundary validation for the intended contract. After corrections, retrieve the GameInstance's existing InventoryRulesSubsystem in manager RequestPickup, validate it, and replace the direct AddItem call with RequestPickupItem. This wiring is instructed, not implemented or tested. Manager retains world-actor handling.
+
 | Area | State | Evidence |
 | --- | --- | --- |
 | Plugin source/content migration | Files reside in plugin; earlier gameplay tests reported | INSPECTED + HISTORICAL |

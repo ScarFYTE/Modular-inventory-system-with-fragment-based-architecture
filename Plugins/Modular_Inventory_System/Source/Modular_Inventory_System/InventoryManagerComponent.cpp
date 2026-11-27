@@ -5,6 +5,9 @@
 #include "GameFramework/PlayerController.h"
 #include "ItemDefinition.h"
 #include "InventoryScreenInterface.h"	
+#include "InventoryRulesSubsystem.h"
+#include "Engine/GameInstance.h"
+#include "Kismet/GameplayStatics.h"
 
 UInventoryManagerComponent::UInventoryManagerComponent()
 {

@@ -1,5 +1,6 @@
 #include "InventoryRulesSubsystem.h"
 #include "InventoryComponent.h"
+#include "ItemDefinition.h"
 #include "Engine/World.h"
 #include "GameFramework/Actor.h"
 
@@ -79,4 +80,12 @@ bool UInventoryRulesSubsystem::RequestMoveItem(UInventoryComponent* InventoryCom
     }
 
     return InventoryComp->MoveItem(FromIndex, ToIndex);
+}
+
+int32 UInventoryRulesSubsystem::RequestPickupItem(UInventoryComponent* Comp, UItemDefinition* ItemDef, int32 count) {
+    if (!IsValid(Comp) || !IsValid(ItemDef)) return 0;
+
+    if (count <= 0)return 0;
+
+    return Comp->AddItem(ItemDef , count);
 }

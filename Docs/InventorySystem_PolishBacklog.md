@@ -16,6 +16,8 @@ This file owns task status. Priorities/order below are working recommendations u
 
 ## B. Data correctness and integration
 
+MIG-04 latest source review (2026-11-27): RequestPickupItem wrapper exists, but malformed reflected forward declaration and misspelled ItemDefinition include must be corrected before build. Explicit count validation and manager subsystem wiring are next; no new build/runtime result recorded.
+
 | ID / status | Finding and evidence | Completion check |
 | --- | --- | --- |
 | SAFE-01 / IN PROGRESS, before pickup is considered complete | Source inspected 2026-11-27: accepted-count return and change-only broadcast implemented. Manager only destroys pickup/resets nearby reference when AddItem accepts 1. User reports connected pickup works after instructions to replace old F execution path; final graph not repasted. | Record individual full-inventory and repeated-input outcomes; verify F uses manager exclusively. Verify rejected/partial/full add counts and refresh changed Blueprint nodes. Current world pickup is one item; multi-count remainder handling is not implemented. |

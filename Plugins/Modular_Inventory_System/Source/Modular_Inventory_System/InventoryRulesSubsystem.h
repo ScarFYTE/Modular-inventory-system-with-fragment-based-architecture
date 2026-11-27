@@ -9,6 +9,8 @@
 
 class UInventoryComponent;
 class AActor;
+class ItemDefinition;
+
 
 UCLASS()
 class MODULAR_INVENTORY_SYSTEM_API UInventoryRulesSubsystem : public UGameInstanceSubsystem
@@ -28,4 +30,9 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Inventory|Rules")
 	bool RequestMoveItem(UInventoryComponent* InventoryComp, int32 FromIndex, int32 ToIndex);
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory|Rules")
+	int32 RequestPickupItem(UInventoryComponent* InventoryComp, UItemDefinition* ItemDef, int32 count = 1);
+
+
 };
